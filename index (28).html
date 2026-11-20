@@ -1,0 +1,2366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>استبيان المجمع الرياضي الشامل</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=xgbPld10UT2penMqzwQ9HYHzvWICWjWe1QZrrZ_yN6t0QFXWFGgJVYiJcJv3Qk9B3VlTyK_MMQZC6tWz5g6ub--uSJVu3YSEpGBFTAmo_RGGPONppPfDSa8I1Zo5nCkx440-CyiQmVyMnYzyVIygT0WDyraMWXhZ2pFdV4FXR--Tc_L8tLK9KEguCc56-5D4cJqdSBBCNngVIYdCjiWhlKblXanXI08VREB295QngPrlTRhXX2ulZAxvAlYGm1-b6s28I_p9yt3fSAEN_j4d8ROuV_-vzyEcRI44M0bQ3QE-fYWP0t6AjRumU-wGXisuJgG3KbtPi_ATTUOsgzwLDQ" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=HkL_3VPuf9XJKoijbXQY77V8qNtLvDHvRy3OYzrK7UrhUcZPKK5rwUSD911uXGBkB1gtDIvG1tQj_fCJ-c5AkwAOO5KP-UHNaHREkT5Bmy_H08Yx56QxuxDh-YKDkgvpZLwyDjiUscL8a2I2aKqT0H0smGLQh5hFZr-CiCixDhwOGirjuKy8vMf4hj3HFk0OWA7WGZE7p2PdK6Z0pqsYEtQ6P1SJiA6lUQ-pgsEyXMuMaQY9sf7cHqtnIJv1j3j27OIJSXGqWPB2x0rvVFL7TF-7LUqRsAJtyaBEE-UPZTlL5vHmUnhu33AD9ppPvp_l" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js for Diagrams & Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- SheetJS for Excel (.xlsx) Export -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- html2pdf.js for PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: #18181B;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            touch-action: manipulation;
+        }
+
+        #welcomeScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: linear-gradient(135deg, #00A3AD 0%, #007780 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            text-align: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .carousel-stage-container {
+            perspective: 1000px;
+            position: relative;
+            width: 100%;
+            min-height: 560px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+        }
+
+        .carousel-track {
+            position: relative;
+            width: 100%;
+            height: 540px;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: pan-y;
+            user-select: none;
+        }
+
+        .flashcard-item {
+            position: absolute;
+            width: 92%;
+            max-width: 450px;
+            height: 525px;
+            border-radius: 36px;
+            transform-style: preserve-3d;
+            transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease;
+            will-change: transform, opacity;
+            cursor: pointer;
+            overflow: hidden !important;
+        }
+
+        .card-theme-0 { background-color: #5A7EA8; color: #FFF; }
+        .card-theme-1 { background-color: #F17A17; color: #FFF; }
+        .card-theme-2 { background-color: #48A895; color: #FFF; }
+        .card-theme-3 { background-color: #9EC723; color: #18181B; }
+        .card-theme-4 { background-color: #C81055; color: #FFF; }
+        .card-theme-5 { background-color: #F5C400; color: #18181B; }
+
+        @media (max-width: 640px) {
+            .carousel-stage-container { min-height: 510px; }
+            .carousel-track { height: 495px; }
+            .flashcard-item {
+                width: 95%;
+                height: 485px;
+                border-radius: 28px;
+            }
+            .flashcard-item.is-prev {
+                transform: translateX(42vw) scale(0.82) rotateY(-10deg) translateZ(-40px) !important;
+            }
+            .flashcard-item.is-next {
+                transform: translateX(-42vw) scale(0.82) rotateY(10deg) translateZ(-40px) !important;
+            }
+        }
+
+        .flashcard-item.is-active {
+            transform: translateX(0) scale(1) translateZ(0);
+            opacity: 1;
+            z-index: 30;
+            cursor: default;
+            pointer-events: auto !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+        }
+
+        .flashcard-item.is-prev {
+            transform: translateX(min(55vw, 300px)) scale(0.85) rotateY(-12deg) translateZ(-50px);
+            opacity: 0.35;
+            z-index: 20;
+            pointer-events: auto !important;
+        }
+
+        .flashcard-item.is-next {
+            transform: translateX(max(-55vw, -300px)) scale(0.85) rotateY(12deg) translateZ(-50px);
+            opacity: 0.35;
+            z-index: 20;
+            pointer-events: auto !important;
+        }
+
+        .flashcard-item.is-far-prev,
+        .flashcard-item.is-far-next {
+            opacity: 0 !important;
+            z-index: 1 !important;
+            pointer-events: none !important;
+            visibility: hidden !important;
+            transform: scale(0.5) translateZ(-200px) !important;
+        }
+
+        .flipper-box {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            transform-style: preserve-3d;
+        }
+
+        .card-surface {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: inherit;
+            padding: 22px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 10;
+        }
+
+        .options-scroll-area {
+            overflow-y: auto;
+            max-height: 270px;
+            padding-left: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+        }
+
+        .options-scroll-area::-webkit-scrollbar { width: 5px; }
+        .options-scroll-area::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.25); border-radius: 9999px; }
+
+        .pebble-option {
+            background: rgba(255, 255, 255, 0.22);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            width: 100%;
+            text-align: right;
+        }
+
+        .card-theme-1 .pebble-option,
+        .card-theme-3 .pebble-option,
+        .card-theme-5 .pebble-option {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .pebble-option:hover,
+        .pebble-option.selected {
+            background: #FFFFFF !important;
+            color: #18181B !important;
+            border-color: #18181B !important;
+            font-weight: 700;
+        }
+
+        .btn-solid-dark {
+            background-color: #18181B;
+            color: #FFFFFF;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: all 0.15s ease;
+        }
+        .btn-solid-dark:active { transform: scale(0.98); }
+
+        .btn-solid-light {
+            background-color: #FFFFFF;
+            color: #18181B;
+            border-radius: 9999px;
+            font-weight: 700;
+        }
+
+        .progress-track-light { background: rgba(0, 0, 0, 0.1); border-radius: 9999px; }
+        .progress-fill-dark { background: #18181B; border-radius: 9999px; transition: width 0.25s ease-out; }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .mic-listening {
+            animation: pulse-ring 1.5s infinite;
+            background-color: #EF4444 !important;
+            color: #FFFFFF !important;
+        }
+        @media print {
+            body * { visibility: hidden; }
+            #admin-view, #admin-view * { visibility: visible; }
+            #admin-view { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 10px; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Welcome Screen: Separating the two experiences -->
+    <div id="welcomeScreen">
+        <div class="max-w-lg space-y-6 px-4">
+            <div class="space-y-3">
+                <div class="w-16 h-16 mx-auto rounded-3xl bg-white text-[#00A3AD] flex items-center justify-center text-3xl shadow-lg mb-2">
+                    <i class="fa-solid fa-medal"></i>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white">استبيان المجمع الرياضي الشامل</h1>
+                <p class="text-white/95 text-base md:text-lg font-medium leading-relaxed">
+                    اختر التجربة الأنسب لك للمشاركة في استبيان تصميم المجمع الرياضي لذوي الإعاقة:
+                </p>
+            </div>
+            <div class="pt-2 space-y-4">
+                <!-- Option 2: Voice & Blind Accessible Experience -->
+                <button type="button" onclick="startExperience('voice')"
+                    class="bg-[#18181B] text-white font-bold w-full py-4 px-6 text-base md:text-lg rounded-2xl shadow-xl hover:bg-black transition cursor-pointer flex items-center justify-between gap-4 border-2 border-[#FFD100]">
+                    <div class="flex items-center gap-3.5 text-right">
+                        <div class="w-12 h-12 rounded-xl bg-[#FFD100] text-black flex items-center justify-center text-2xl shrink-0">
+                            <i class="fa-solid fa-ear-listen"></i>
+                        </div>
+                        <div>
+                            <div class="text-lg">تجربة المساعد الصوتي (للمكفوفين)</div>
+                            <div class="text-xs text-white/80 font-normal mt-0.5">قراءة سريعة، أرقام الخيارات فقط، وإملاء صوتي ذكي للأخرى والكتابة</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-left text-[#FFD100]"></i>
+                </button>
+
+                <!-- Option 1: Touch & Visual Experience -->
+                <button type="button" onclick="startExperience('touch')"
+                    class="bg-white text-black font-bold w-full py-4 px-6 text-base md:text-lg rounded-2xl shadow-lg hover:bg-gray-100 transition cursor-pointer flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3.5 text-right">
+                        <div class="w-12 h-12 rounded-xl bg-[#00A3AD] text-white flex items-center justify-center text-2xl shrink-0">
+                            <i class="fa-solid fa-hand-pointer"></i>
+                        </div>
+                        <div>
+                            <div class="text-lg">تجربة اللمس والقراءة البصرية</div>
+                            <div class="text-xs text-gray-600 font-normal mt-0.5">تصفح بصري تفاعلي بالبطاقات والسحب السريع</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-left text-[#00A3AD]"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="w-full py-3.5 px-4 md:px-10 flex items-center justify-between z-20 border-b border-gray-100 bg-white sticky top-0">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-[#00A3AD] text-white flex items-center justify-center text-base font-bold shadow-sm">
+                <i class="fa-solid fa-medal"></i>
+            </div>
+            <div>
+                <h1 id="app-title" class="text-base md:text-xl font-bold text-black">استبيان المجمع الرياضي الشامل</h1>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <!-- Mode Switcher Badge -->
+            <span id="mode-badge" class="text-xs bg-teal-50 text-[#00A3AD] px-3 py-1.5 rounded-full font-bold border border-teal-200 hidden md:inline-block">
+                وضع اللمس
+            </span>
+
+            <button type="button" onclick="toggleAdminView()" id="admin-toggle-btn"
+                class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 px-3.5 py-2 rounded-full font-bold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-lock text-[10px]"></i>
+                <span>لوحة المشرف</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Dedicated Voice Assistant Status & Control Bar (Visible only in Voice Mode) -->
+    <div id="voice-control-panel" class="hidden w-full bg-[#18181B] text-white px-4 py-3 text-xs md:text-sm font-bold flex flex-wrap items-center justify-between gap-3 z-20 shadow-md">
+        <div class="flex items-center gap-2.5">
+            <span id="voice-state-badge" class="w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block"></span>
+            <span id="voice-status-text">المساعد الصوتي نشط وجاهز</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button type="button" onclick="repeatCurrentCardAudio()"
+                class="bg-white/20 hover:bg-white/30 text-white px-3.5 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-rotate-right"></i>
+                <span>إعادة القراءة</span>
+            </button>
+            <button type="button" onclick="startManualListening()" id="manual-mic-btn"
+                class="bg-[#00A3AD] hover:bg-[#008991] text-white px-3.5 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-microphone"></i>
+                <span>تحدث الآن</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Stage (Survey View) -->
+    <main class="flex-grow container mx-auto px-3 py-4 max-w-3xl flex flex-col justify-center z-10" id="survey-view">
+
+        <!-- Progress -->
+        <div class="max-w-md mx-auto w-full mb-3 space-y-2">
+            <div class="flex items-center justify-between px-1 text-xs font-bold text-black">
+                <div class="flex items-center gap-2">
+                    <span id="card-counter-badge"
+                        class="bg-black text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                        البطاقة 1 من 26
+                    </span>
+                    <span id="respondent-header-name" class="text-xs text-gray-700 font-bold"></span>
+                </div>
+                <button type="button" onclick="resetAllCards()"
+                    class="hover:text-red-600 flex items-center gap-1 text-xs transition font-bold text-gray-600">
+                    <i class="fa-solid fa-rotate-left text-[10px]"></i>
+                    <span>إعادة</span>
+                </button>
+            </div>
+            <div class="w-full progress-track-light h-2.5 p-0.5 overflow-hidden">
+                <div id="carousel-progress-bar" class="progress-fill-dark h-full" style="width: 3.85%;"></div>
+            </div>
+        </div>
+
+        <!-- Carousel -->
+        <div class="carousel-stage-container">
+            <div class="carousel-track" id="carousel-track">
+                <!-- Cards injected by JS -->
+            </div>
+        </div>
+
+        <!-- Bottom Progress Dots -->
+        <div class="max-w-md mx-auto w-full flex items-center justify-center gap-1 mt-3 flex-wrap px-2" id="carousel-dots-group">
+        </div>
+
+    </main>
+
+    <!-- Admin Password Modal -->
+    <div id="admin-password-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-gray-200 space-y-5 text-right">
+            <div class="flex items-center justify-between border-b pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-2xl bg-[#18181B] text-[#FFD100] flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-black">دخول لوحة المشرف</h3>
+                        <p class="text-xs text-gray-500">أدخل كلمة المرور للوصول إلى الإحصائيات والنتائج</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeAdminPasswordModal()" class="text-gray-400 hover:text-black text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="verifyAdminPassword(event)" class="space-y-4">
+                <div>
+                    <label for="admin-password-input" class="block text-xs font-bold text-gray-700 mb-1.5">كلمة المرور</label>
+                    <div class="relative">
+                        <input type="password" id="admin-password-input" autocomplete="current-password"
+                            placeholder="أدخل كلمة المرور..."
+                            class="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-[#00A3AD] text-sm font-bold outline-none transition" />
+                        <button type="button" onclick="togglePasswordVisibility()"
+                            class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black text-sm">
+                            <i class="fa-solid fa-eye" id="password-eye-icon"></i>
+                        </button>
+                    </div>
+                    <p id="admin-password-error" class="text-xs text-red-600 font-bold mt-1.5 hidden">
+                        <i class="fa-solid fa-circle-exclamation ml-1"></i>
+                        كلمة المرور غير صحيحة. حاول مرة أخرى.
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAdminPasswordModal()"
+                        class="px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold transition">
+                        إلغاء
+                    </button>
+                    <button type="submit"
+                        class="px-5 py-2.5 rounded-xl bg-[#00A3AD] hover:bg-[#008991] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-key"></i>
+                        <span>فتح اللوحة</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Export Format Choice Modal -->
+    <div id="export-choice-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-gray-200 space-y-5 text-right">
+            <div class="flex items-center justify-between border-b pb-3">
+                <div>
+                    <h3 class="text-lg font-bold text-black">تصدير نتائج الاستبيان</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">اختر الصيغة المطلوبة لتصدير البيانات والإحصائيات</p>
+                </div>
+                <button type="button" onclick="closeExportModal()" class="text-gray-400 hover:text-black text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <button type="button" onclick="exportToExcel(); closeExportModal();"
+                    class="w-full p-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 hover:bg-emerald-100/80 transition flex items-center justify-between gap-3 text-right">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-file-excel"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-emerald-950">تصدير بصيغة Excel (.xlsx)</div>
+                            <div class="text-[11px] text-emerald-800">جداول منظمة للردود والملخص الإحصائي لجميع الأسئلة</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-left text-emerald-700"></i>
+                </button>
+
+                <button type="button" onclick="exportToPDF(); closeExportModal();"
+                    class="w-full p-4 rounded-2xl border-2 border-rose-200 bg-rose-50/60 hover:bg-rose-100/80 transition flex items-center justify-between gap-3 text-right">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-rose-600 text-white flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-rose-950">تصدير بصيغة PDF (.pdf)</div>
+                            <div class="text-[11px] text-rose-800">تقرير متكامل يتضمن المؤشرات، الرسوم البيانية، والنتائج</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-left text-rose-700"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard View -->
+    <main class="flex-grow container mx-auto px-4 py-6 max-w-6xl hidden" id="admin-view">
+        <div id="admin-report-content" class="bg-white rounded-3xl p-6 shadow-md border border-gray-200 space-y-7">
+            <!-- Header Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-black">لوحة تحكم المشرف والإحصائيات الشاملة</h2>
+                    <p class="text-xs text-gray-500 mt-1 font-medium">تحليل متكامل ورسوم بيانية لجميع الأسئلة الـ 24 والردود المسجلة</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 no-print">
+                    <button type="button" onclick="openExportModal()"
+                        class="bg-[#00A3AD] hover:bg-[#008991] text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-download"></i>
+                        <span>تصدير النتائج (Excel / PDF)</span>
+                    </button>
+                    <button type="button" onclick="lockAdminDashboard()"
+                        class="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-key"></i>
+                        <span>قفل اللوحة</span>
+                    </button>
+                    <button type="button" onclick="clearAllData()"
+                        class="bg-red-50 hover:bg-red-100 text-red-600 px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>حذف الكل</span>
+                    </button>
+                    <button type="button" onclick="toggleAdminView()" class="btn-solid-dark px-4 py-2 text-xs">
+                        العودة للاستبيان
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI Summary Cards (4 Cards) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-xl bg-black text-white flex items-center justify-center text-xl font-bold shrink-0">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <div class="text-xs text-gray-500 font-bold">إجمالي المشاركين</div>
+                        <div id="stat-total-count" class="text-2xl font-bold text-black">0</div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-xl bg-[#00A3AD] text-white flex items-center justify-center text-xl font-bold shrink-0">
+                        <i class="fa-solid fa-check-double"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <div class="text-xs text-gray-500 font-bold">معدل الإكمال الكلي</div>
+                        <div id="stat-completion-rate" class="text-2xl font-bold text-black">0%</div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-xl bg-[#FFD100] text-black flex items-center justify-center text-xl font-bold shrink-0">
+                        <i class="fa-solid fa-user-tag"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <div class="text-xs text-gray-500 font-bold">أكثر صفة مشاركة</div>
+                        <div id="stat-top-role" class="text-xs font-bold text-black truncate">لا توجد بيانات</div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-xl bg-[#10B981] text-white flex items-center justify-center text-xl font-bold shrink-0">
+                        <i class="fa-solid fa-comment-dots"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <div class="text-xs text-gray-500 font-bold">إجمالي المقترحات النصية</div>
+                        <div id="stat-text-responses" class="text-2xl font-bold text-black">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Primary Diagrams & Charts Section -->
+            <div class="space-y-4">
+                <h3 class="text-base font-bold text-black flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line text-[#00A3AD]"></i>
+                    <span>الرسوم البيانية والمخططات التحليلية الرئيسية</span>
+                </h3>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <!-- Chart 1: Gender Doughnut -->
+                    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-black">1. توزيع المشاركين حسب الجنس</span>
+                            <span class="text-[11px] bg-white px-2.5 py-0.5 rounded-full border text-gray-600 font-bold">مخطط دائري</span>
+                        </div>
+                        <div class="h-60 flex items-center justify-center">
+                            <canvas id="chart-gender"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Chart 2: Age Group Bar -->
+                    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-black">2. توزيع الفئات العمرية</span>
+                            <span class="text-[11px] bg-white px-2.5 py-0.5 rounded-full border text-gray-600 font-bold">مخطط أعمدة</span>
+                        </div>
+                        <div class="h-60 flex items-center justify-center">
+                            <canvas id="chart-age"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Chart 3: Participant Role Horizontal Bar -->
+                    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-black">3. صفة المشارك في الاستبيان</span>
+                            <span class="text-[11px] bg-white px-2.5 py-0.5 rounded-full border text-gray-600 font-bold">مخطط أفقي</span>
+                        </div>
+                        <div class="h-60 flex items-center justify-center">
+                            <canvas id="chart-role"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Chart 4: Universal Accessibility Availability Polar/Bar -->
+                    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-black">4. مدى توفر الوصول الشامل حالياً (س10)</span>
+                            <span class="text-[11px] bg-white px-2.5 py-0.5 rounded-full border text-gray-600 font-bold">مخطط قطبي</span>
+                        </div>
+                        <div class="h-60 flex items-center justify-center">
+                            <canvas id="chart-accessibility"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full-width Chart 5: Priorities & Integrated Services Comparison -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-black">5. أولويات تصميم المجمع الشامل (س9)</span>
+                            <span class="text-[11px] bg-white px-2.5 py-0.5 rounded-full border text-gray-600 font-bold">مخطط رادار</span>
+                        </div>
+                        <div class="h-64 flex items-center justify-center">
+                            <canvas id="chart-priorities"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-black">6. الأنشطة الترفيهية والاجتماعية المطلوبة (س21)</span>
+                            <span class="text-[11px] bg-white px-2.5 py-0.5 rounded-full border text-gray-600 font-bold">مخطط أعمدة</span>
+                        </div>
+                        <div class="h-64 flex items-center justify-center">
+                            <canvas id="chart-activities"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Questions Percentage Breakdown & Mini Diagrams -->
+            <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-sm font-bold text-black flex items-center gap-2">
+                        <i class="fa-solid fa-chart-column text-[#00A3AD]"></i>
+                        <span>التفصيل الإحصائي والنسب المئوية لجميع الأسئلة</span>
+                    </h3>
+                    <span class="text-[11px] text-gray-500 font-bold">يشمل جميع الأسئلة الاختيارية والنصية</span>
+                </div>
+                <div id="percentage-breakdown-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+
+            <!-- Detailed Responses Table -->
+            <div>
+                <h3 class="text-sm font-bold text-black mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-table text-[#00A3AD]"></i>
+                    <span>سجل الردود التفصيلي</span>
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse">
+                        <thead>
+                            <tr class="border-b bg-gray-50 text-xs font-bold text-gray-700">
+                                <th class="p-3">#</th>
+                                <th class="p-3">التاريخ والوقت</th>
+                                <th class="p-3">الاسم</th>
+                                <th class="p-3">صفة المشارك</th>
+                                <th class="p-3">أبرز المشكلات المقترحة (س23)</th>
+                                <th class="p-3">الخدمات الإضافية (س24)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table-body" class="text-xs text-gray-800 divide-y font-medium"></tbody>
+                    </table>
+                </div>
+                <div id="no-data-msg" class="text-center py-8 text-gray-400 text-sm hidden font-bold">
+                    لا توجد أي ردود مخزنة حتى الآن.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const surveyQuestions = [
+            { id: "q1", section: "بيانات المشارك", title: "الجنس", type: "single", options: ["ذكر", "أنثى"], hasOther: false },
+            { id: "q2", section: "بيانات المشارك", title: "الفئة العمرية", type: "single", options: ["أقل من 18 سنة", "18 - 25 سنة", "26 - 35 سنة", "36 - 45 سنة", "أكثر من 45 سنة"], hasOther: false },
+            { id: "q3", section: "بيانات المشارك", title: "صفة المشارك في الاستبيان", type: "single", options: ["شخص يواجه تحديات أو يعتمد وسائل مساعدة.", "فرد من أسرة / صديق مقرب لشخص يواجه تحديات أو إعاقة.", "اختصاصي / مدرب", "مهتم بالوصول الشامل أو الرياضة"], hasOther: false },
+            { id: "q4", section: "بيانات المشارك", title: "نوع التحدي", type: "multi", options: ["استخدام الكراسي المتحركة.", "استخدام الأطراف الصناعية.", "استخدام وسائل مساعدة أخرى (عكازات / مشايات).", "تحديات بصرية كلية", "تحديات بصرية جزئية", "تحديات سمعية.", "لا يوجد"], hasOther: true, otherLabel: "متعددة / أخرى (يرجى التحديد إن رغبت)" },
+            { id: "q5", section: "الأنشطة الرياضية والأهداف", title: "ما طبيعة علاقتك بالأنشطة الرياضية؟", type: "single", options: ["رياضي محترف", "ممارس للرياضة بانتظام", "أمارس الرياضة كترفيه / هواية متقطعة", "متابع للرياضة", "لست رياضي أو متابع للرياضة."], hasOther: false },
+            { id: "q6", section: "الأنشطة الرياضية والأهداف", title: "ما الأهداف الرئيسية التي ترغب في تحقيقها من خلال ممارسة الرياضة؟", type: "multi", options: ["تحسين اللياقة البدنية والصحة العامة.", "تنمية المهارات الحركية.", "الترفيه والتفاعل الاجتماعي.", "المشاركة في المنافسات الرياضية."], hasOther: true, otherLabel: "أهداف أخرى" },
+            { id: "q7", section: "الأنشطة الرياضية والأهداف", title: "ما نوع الأنشطة الرياضية التي تفضلها ؟", type: "multi", options: ["أنشطة فردية.", "أنشطة جماعية.", "أنشطة تنافسية.", "أنشطة ترفيهية وغير تنافسية."], hasOther: false },
+            { id: "q8", section: "الوصول والدمج", title: "هل تفضل ممارسة الأنشطة الرياضية والترفيهية في بيئة مشتركة مع الأشخاص من غير ذوي الإعاقة؟", type: "single", options: ["نعم.", "لا.", "حسب نوع النشاط الرياضي.", "أفضل وجود خيارات للأنشطة المشتركة والمخصصة."], hasOther: false },
+            { id: "q9", section: "الوصول والدمج", title: "ما الأولوية التي ينبغي أن يركز عليها تصميم مجمع رياضي شامل؟", type: "multi", options: ["سهولة الوصول.", "تنوع الأنشطة والمرافق الرياضية.", "الاستقلالية والاعتماد على الذات.", "الدمج الاجتماعي.", "التهيئة الحسية والإدراكية."], hasOther: false },
+            { id: "q10", section: "الوصول والدمج", title: "من وجهة نظرك، ما مدى توفر مفهوم الوصول الشامل في المنشآت الرياضية الموجودة حالياً؟", type: "single", options: ["متوفر بدرجة كبيرة", "متوفر بدرجة متوسطة", "متوفر بدرجة ضعيفة", "غير متوفر", "لا أستطيع التقييم"], hasOther: false },
+            { id: "q11", section: "الوصول والتنقل", title: "ما مدى سهولة وصولك حالياً إلى المرافق الرياضية المتوفرة في المدينة؟", type: "single", options: ["سهلة جداً", "سهلة", "متوسطة", "صعبة", "صعبة جداً"], hasOther: true, otherLabel: "أذكر لماذا" },
+            { id: "q12", section: "الوصول والتنقل", title: "ما أبرز الصعوبات التي قد تمنعك من ممارسة الرياضة؟", type: "multi", options: ["عدم توفر منشآت رياضية مهيأة.", "نقص المعدات والأجهزة الرياضية المناسبة.", "صعوبة الوصول إلى المنشآت الرياضية.", "نقص البرامج والأنشطة المناسبة.", "عدم توفر وسائل النقل."], hasOther: true, otherLabel: "أسباب أخرى" },
+            { id: "q13", section: "الوصول والتنقل", title: "كيف تفضل الوصول إلى المجمع الرياضي والمناطق المحيطة به؟", type: "multi", options: ["وسائل النقل العام", "السيارات الخاصة / النقل الفردي.", "بواسطة الكرسي المتحرك", "المشي لمسافات قصيرة بواسطة أدوات مساعدة", "المشي بمساعدة العصا البيضاء أو كلب الإرشاد"], hasOther: false },
+            { id: "q14", section: "التحديات الحركية", title: "للتحديات الحركية) عند التنقل داخل المجمع الرياضي أو في الساحات الخارجية، ما هي أبرز العقبات المعمارية التي تعيق حركتك؟ يمكنك اختيار أكثر من إجابة أو تخطي السؤال إذا لم تكن تواجه تحديات حركية", type: "multi", options: ["ضيق الممرات وصعوبة دوران الكرسي المتحرك أو المرور بجانب شخص آخر.", "وجود عتبات أو فروق بسيطة في مناسيب الأرضيات دون منحدرات.", "شدة انحدار المنحدرات أو طولها المرهق دون استراحات أفقية.", "نوعية الأرضيات خشنة جداً تسبب اهتزاز الكرسي، أو ملساء جداً تسبب الانزلاق).", "ثقل الأبواب وصعوبة فتحها وإغلاقها أثناء استخدام الكرسي أو العكاز."], hasOther: false },
+            { id: "q15", section: "التحديات الحركية", title: "للتحديات الحركية عند التنقل بين طوابق المجمع الرياضي، ما هو التفضيل المعماري الأكثر راحة وأماناً لك؟ يمكنك تخطي السؤال إذا لم تكن تواجه تحديات حركية", type: "single", options: ["تصميم المجمع أفقياً لتقليل الاعتماد على الحركة الرأسية", "الاعتماد على الحركة رأسياً وتقليل مسافة الانتقال الأفقي"], hasOther: false },
+            { id: "q16", section: "التحديات البصرية", title: "(للتحديات البصرية ما هي الوسائل الأكثر فعالية لمساعدتك في معرفة موقعك والتنقل باستقلالية داخل أقسام المجمع ؟ يمكنك اختيار أكثر من إجابة أو تخطي السؤال إذا لم تكن تواجه تحديات بصرية)", type: "multi", options: ["مسارات التوجيه اللمسي الأرضية", "اللوحات الإرشادية المكتوبة بلغة برايل", "التطبيقات الذكية المعتمدة على نظام تحديد الموقع الداخلي أو المساعد الصوتي.", "الإعلانات والإرشادات الصوتية التفاعلية في الممرات"], hasOther: false },
+            { id: "q17", section: "التحديات البصرية", title: "للتحديات البصرية كيف تقيم أهمية دمج عناصر طبيعية وصوتية ثابتة (مثل: نافورة مياه داخلية في البهو، جدار نباتات عطرية، أو خامات أرضيات مختلفة تماماً كعلامات إرشادية (يمكنك اختيار أكثر من إجابة أو تخطي السؤال إذا لم تكن تواجه تحديات بصرية", type: "multi", options: ["مهمة جداً تساعدني على بناء خريطة ذهنية للمكان بالصوت والرائحة والملمس دون الاعتماد على البصر أو المساعدة البشرية).", "متوسطة الأهمية إلى جانب اللوحات التقليدية .", "غير مهمة مقارنة بالإرشادات الرقمية والصوتية البحتة."], hasOther: false },
+            { id: "q18", section: "التحديات السمعية", title: "(للتحديات السمعية ما هو العنصر التصميمي الأهم بالنسبة لك؟ يمكنك اختيار أكثر من إجابة أو تخطي السؤال إذا لم تكن تواجه تحديات سمعية)", type: "multi", options: ["تجهيز الملاعب بإشارات ضوئية مدمجة", "تصميم الفراغات بشكل يسمح للجميع برؤية وجوه بعضهم البعض لتسهيل الحوار البصري.", "إضاءة متوازنة خالية من الظلال والتوهج", "استخدام أرضيات رياضية تنقل اهتزاز خطوات اللاعبين أو سقوط الكرة كإشارة حسية بديلة للصوت"], hasOther: false },
+            { id: "q19", section: "التحديات السمعية", title: "للتحديات السمعية ما الذي يسهل عليك عملية الدخول والتوجيه عند مداخل المجمع الرياضي؟ يمكنك اختيار أكثر من إجابة أو تخطي السؤال إذا لم تكن تواجه تحديات سمعية)", type: "multi", options: ["وجود لوحات وشاشات إرشادية مضيئة وواضحة عند المدخل مباشرة", "واجهات وفواصل زجاجية شفافة في منطقة المدخل والبهو لتسهيل الرؤية البصرية المباشرة للداخل", "تجهيز كاونتر الاستقبال عند المدخل بأنظمة بث صوتي مباشر للمعينات السمعية لتقليل تشويش الضوضاء المحيطة بالمدخل وتسهيل التواصل مع الموظف.", "نظام استدعاء أو حجز بصري عند البوابة الاستقبال يعتمد على أرقام أو إشارات ضوئية على شاشة بدلاً من النداء الصوتي بالاسم."], hasOther: false },
+            { id: "q20", section: "المرافق والمسبح", title: "ما هي أبرز المشكلات التصميمية التي تواجهك في غرف تبديل الملابس دورات المياه، ومنطقة المسبح)؟", type: "multi", options: ["ضيق مساحات الدوران والمناورة بالكرسي المتحرك أو مع المرافق", "غياب وسائل النزول الآمنة لحوض السباحة (مثل المنحدرات المائية المدمجة أو الرافعات)", "عدم توفر غرف تبديل مخصصة للعائلات أو المرافقين", "تباين ضعيف في الألوان يصعب الرؤية", "مسارات غير محددة مختلفة الملمس", "أرضيات زلقة"], hasOther: false },
+            { id: "q21", section: "الأنشطة والخدمات المتكاملة", title: "ما الأنشطة الترفيهية والاجتماعية التي ترغب في توفرها داخل المجمع الرياضي؟", type: "multi", options: ["الأنشطة الفنية والإبداعية.", "الأنشطة الثقافية والتعليمية.", "الألعاب الجماعية والترفيهية.", "الحدائق والمساحات الخضراء.", "الفعاليات والمسابقات الرياضية.", "اللقاءات والأنشطة الاجتماعية.", "ورش العمل وتنمية المهارات."], hasOther: false },
+            { id: "q22", section: "الأنشطة والخدمات المتكاملة", title: "ما الخدمات التي ترى ضرورة جمعها داخل مجمع رياضي واحد ؟", type: "multi", options: ["الرياضة التنافسية.", "الرياضة الترفيهية.", "العلاج الطبيعي والتأهيل.", "الأنشطة الاجتماعية والثقافية."], hasOther: false },
+            { id: "q23", section: "مقترحات التصميم", title: "ما أبرز المشكلات أو الصعوبات التي تعتقد أنه يجب معالجتها عند تصميم مجمع رياضي للأشخاص ذوي الإعاقة؟", type: "text", placeholder: "اكتب أبرز المشكلات أو الصعوبات التي تقترح معالجتها..." },
+            { id: "q24", section: "مقترحات التصميم", title: "ما الخدمات أو الأنشطة الإضافية التي تتمنى توفرها في المجمع الرياضي المقترح؟", type: "text", placeholder: "اكتب الخدمات أو الأنشطة الإضافية التي تتمناها..." }
+        ];
+
+        const DB_KEY = 'paralympic_survey_db_v1';
+        const totalCards = surveyQuestions.length + 2;
+        let activeCardIndex = 0;
+        let userName = "";
+        let userAnswers = {};
+        let autoAdvanceTimer = null;
+        let isAdminOpen = false;
+
+        let voiceAssistantEnabled = false;
+        let isSpeaking = false;
+        let isListening = false;
+        let selectedArabicVoice = null;
+        let recognition = null;
+        let speechSessionId = 0;
+        let awaitingCustomInputForOption = null; // Stores qId and option index if waiting for text input for "أخرى" or text questions
+
+        const numberWordMap = {
+            1: ["واحد", "واحده", "واحدة", "الاول", "الأول", "الاولى", "الأولى", "اول", "أول", "رقم واحد", "نمره واحد", "نمرة واحد", "1", "١"],
+            2: ["اثنين", "اثنان", "اتنين", "تنين", "الثاني", "ثاني", "الثانيه", "الثانية", "تانيه", "تانية", "رقم اثنين", "رقم اتنين", "نمره اثنين", "2", "٢"],
+            3: ["ثلاثة", "ثلاث", "تلاته", "تلاتة", "تلات", "الثالث", "ثالث", "التالت", "تالت", "رقم ثلاثة", "رقم تلاته", "3", "٣"],
+            4: ["اربعة", "أربعة", "اربع", "أربع", "اربعه", "الرابع", "رابع", "الرابع", "رقم اربعة", "رقم أربعة", "4", "٤"],
+            5: ["خمسة", "خمس", "خمسه", "الخامس", "خامس", "رقم خمسة", "رقم خمسه", "5", "٥"],
+            6: ["ستة", "ست", "سته", "السادس", "سادس", "رقم ستة", "رقم سته", "6", "٦"],
+            7: ["سبعة", "سبع", "سبعه", "السابع", "سابع", "رقم سبعة", "رقم سبعه", "7", "٧"],
+            8: ["ثمانية", "ثمان", "تمنيه", "تمنية", "الثامن", "ثامن", "التامن", "تامن", "رقم ثمانية", "8", "٨"],
+            9: ["تسعة", "تسع", "تسعه", "التاسع", "تاسع", "رقم تسعة", "رقم تسعه", "9", "٩"],
+            10: ["عشرة", "عشر", "عشره", "العاشر", "عاشر", "رقم عشرة", "رقم عشره", "10", "١٠"]
+        };
+
+        const libyanDialectDictionary = {
+            "باهي": "حسناً",
+            "باه": "حسناً",
+            "تمام": "حسناً",
+            "اوكي": "حسناً",
+            "أوكي": "حسناً",
+            "مليح": "جيد",
+            "كويس": "جيد",
+            "شنو": "ما هو",
+            "شن": "ما هو",
+            "علاش": "لماذا",
+            "ليش": "لماذا",
+            "كيفاش": "كيف",
+            "وين": "أين",
+            "قداش": "كم",
+            "قديش": "كم",
+            "هلبا": "كثيراً",
+            "واجد": "كثيراً",
+            "شوية": "قليلاً",
+            "شوي": "قليلاً",
+            "توا": "الآن",
+            "توه": "الآن",
+            "تو": "الآن",
+            "بكري": "مبكراً",
+            "غدوة": "غداً",
+            "امس": "أمس",
+            "بالك": "ربما",
+            "بلكي": "ربما",
+            "ممكن": "ربما",
+            "نبي": "أريد",
+            "نبيش": "لا أريد",
+            "ما نبيش": "لا أريد",
+            "مانبيش": "لا أريد",
+            "نقدر": "أستطيع",
+            "نقدرش": "لا أستطيع",
+            "ما نقدرش": "لا أستطيع",
+            "مانقدرش": "لا أستطيع",
+            "نعرف": "أعرف",
+            "نعرفش": "لا أعرف",
+            "ما نعرفش": "لا أعرف",
+            "مانعرفش": "لا أعرف",
+            "نسمع": "أسمع",
+            "نسمعش": "لا أسمع",
+            "ما نسمعش": "لا أسمع",
+            "مانسمعش": "لا أسمع",
+            "نشوف": "أرى",
+            "نشوفش": "لا أرى",
+            "ما نشوفش": "لا أرى",
+            "مانشوفش": "لا أرى",
+            "مفيش": "لا يوجد",
+            "مافيش": "لا يوجد",
+            "مش موجود": "غير متوفر",
+            "مو موجود": "غير متوفر",
+            "مش": "ليس",
+            "مو": "ليس",
+            "موش": "ليس",
+            "هكي": "هكذا",
+            "هكا": "هكذا",
+            "هدا": "هذا",
+            "هذاكا": "ذلك",
+            "هاداكا": "ذلك",
+            "هادي": "هذه",
+            "هاذي": "هذه",
+            "هدوك": "أولئك",
+            "هدوما": "هؤلاء",
+            "بروحى": "بنفسي",
+            "بروحي": "بنفسي",
+            "بروحك": "بنفسك",
+            "بروحها": "بنفسها",
+            "معايا": "معي",
+            "معاي": "معي",
+            "عليا": "علي",
+            "عليا": "علي",
+            "ليا": "لي",
+            "ليك": "لك",
+            "ليها": "لها",
+            "ليهم": "لهم",
+            "فيا": "في",
+            "فيك": "فيك",
+            "فيها": "فيها",
+            "فيهم": "فيهم",
+            "خوي": "أخي",
+            "خويا": "أخي",
+            "اختي": "أختي",
+            "امي": "أمي",
+            "أمي": "أمي",
+            "بوي": "أبي",
+            "بويا": "أبي",
+            "حوش": "منزل",
+            "الحوش": "المنزل",
+            "سيارة": "سيارة",
+            "كرسي بعجل": "كرسي متحرك",
+            "كرسي متحرك": "كرسي متحرك",
+            "عكازة": "عكازة",
+            "عكازات": "عكازات",
+            "مشي": "مشي",
+            "مشي على الاقدام": "مشي على الأقدام",
+            "مشي على الرجلين": "مشي على الأقدام",
+            "مواصلات": "وسائل النقل العام",
+            "نقل عام": "وسائل النقل العام",
+            "دروج": "سلالم",
+            "دروج كهربائي": "سلم كهربائي",
+            "مصعد": "مصعد",
+            "اسانسير": "مصعد",
+            "حمام": "دورة مياه",
+            "حمامات": "دورات مياه",
+            "مغاسل": "مغاسل",
+            "مسبح": "مسبح",
+            "جنان": "حديقة",
+            "جناين": "حدائق",
+            "ملعب": "ملعب",
+            "ملاعب": "ملاعب",
+            "كورة": "كرة",
+            "كورة قدم": "كرة القدم",
+            "كورة سلة": "كرة السلة",
+            "سباحة": "سباحة",
+            "علاج طبيعي": "علاج طبيعي",
+            "تاهيل": "تأهيل",
+            "تأهيل": "تأهيل",
+            "نادي": "نادي",
+            "مجمع": "مجمع",
+            "فوت": "تخطى",
+            "فوته": "تخطى",
+            "عدي": "تخطى",
+            "عديه": "تخطى",
+            "فوت السؤال": "تخطى السؤال",
+            "عدي السؤال": "تخطى السؤال",
+            "عاود": "أعد",
+            "عاوده": "أعد",
+            "عاود اقرا": "أعد القراءة",
+            "عاود اقرأ": "أعد القراءة",
+            "ارجع": "السابق",
+            "ولي": "السابق",
+            "ولّي": "السابق",
+            "قدام": "التالي",
+            "امشي قدام": "التالي",
+            "تميت": "انتهيت",
+            "كملت": "انتهيت",
+            "خلصت": "انتهيت",
+            "باهي هكي": "حسناً هكذا",
+            "يعطيك الصحة": "شكراً لك",
+            "بارك الله فيك": "شكراً لك",
+            "مشكور": "شكراً لك",
+            "يسلمو": "شكراً لك"
+        };
+
+        const arabicNameCorrections = {
+            "سجى": "سجى",
+            "سجا": "سجى",
+            "ساجا": "سجى",
+            "سوزي": "سوزي",
+            "سوسي": "سوسي",
+            "سوسو": "سوسو",
+            "امنينه": "أمنينة",
+            "امنينا": "أمنينة",
+            "أمنينة": "أمنينة",
+            "سالمة": "سالمة",
+            "سالمه": "سالمة",
+            "الفلاح": "الفلاح",
+            "فلاح": "فلاح",
+            "محمد": "محمد",
+            "محمود": "محمود",
+            "احمد": "أحمد",
+            "أحمد": "أحمد",
+            "علي": "علي",
+            "عمر": "عمر",
+            "خالد": "خالد",
+            "مصطفى": "مصطفى",
+            "يوسف": "يوسف",
+            "ابراهيم": "إبراهيم",
+            "إبراهيم": "إبراهيم",
+            "طارق": "طارق",
+            "وليد": "وليد",
+            "عادل": "عادل",
+            "سامي": "سامي",
+            "هاني": "هاني",
+            "كريم": "كريم",
+            "مراد": "مراد",
+            "فؤاد": "فؤاد",
+            "مروان": "مروان",
+            "ايمن": "أيمن",
+            "أيمن": "أيمن",
+            "اسامة": "أسامة",
+            "أسامة": "أسامة",
+            "فاطمة": "فاطمة",
+            "فاطمه": "فاطمة",
+            "عائشة": "عائشة",
+            "عايشه": "عائشة",
+            "مريم": "مريم",
+            "زينب": "زينب",
+            "نور": "نور",
+            "سارة": "سارة",
+            "ساره": "سارة",
+            "هدى": "هدى",
+            "هدا": "هدى",
+            "منى": "منى",
+            "منا": "منى",
+            "ليلى": "ليلى",
+            "ليلا": "ليلى",
+            "اميرة": "أميرة",
+            "أميرة": "أميرة",
+            "ياسمين": "ياسمين",
+            "رنا": "رنا",
+            "دعاء": "دعاء",
+            "اسراء": "إسراء",
+            "إسراء": "إسراء",
+            "اية": "آية",
+            "آية": "آية",
+            "رحمة": "رحمة",
+            "رحمه": "رحمة",
+            "هاجر": "هاجر",
+            "رويدة": "رويدة",
+            "رويدا": "رويدة",
+            "ملاك": "ملاك",
+            "هبة": "هبة",
+            "هبه": "هبة",
+            "ندى": "ندى",
+            "ندا": "ندى",
+            "حنان": "حنان",
+            "سهام": "سهام",
+            "نجلاء": "نجلاء",
+            "وفاء": "وفاء",
+            "ايمان": "إيمان",
+            "إيمان": "إيمان",
+            "سمية": "سمية",
+            "سميه": "سمية",
+            "بنغازي": "بنغازي",
+            "طرابلس": "طرابلس",
+            "ليبيا": "ليبيا"
+        };
+
+        const arabicPronunciationLexicon = {
+            "ذوي الإعاقة": "ذَوي الإعاقة",
+            "ذوي الاعاقة": "ذَوي الإعاقة",
+            "الوصول الشامل": "الوُصول الشّامل",
+            "التصميم الشامل": "التّصميم الشّامل",
+            "العلاج الطبيعي": "العِلاج الطّبيعي",
+            "التأهيل": "التّأهيل",
+            "الاستقلالية": "الاستِقلالِيّة",
+            "الاندماج الاجتماعي": "الاندِماج الاجتِماعي",
+            "الدمج الاجتماعي": "الدّمج الاجتِماعي",
+            "التهيئة الحسية": "التّهيئة الحِسّيّة",
+            "المسارات اللمسية": "المَسارات اللّمسِيّة",
+            "برايل": "بِرايل",
+            "الكرسي المتحرك": "الكُرسي المُتحرّك",
+            "الأطراف الصناعية": "الأطراف الصّناعِيّة",
+            "المرافق الرياضية": "المَرافِق الرّياضِيّة",
+            "المجمع الرياضي": "المُجمّع الرّياضِيّ",
+            "الرياضة التنافسية": "الرّياضة التّنافسِيّة",
+            "الرياضة الترفيهية": "الرّياضة التّرفيهِيّة",
+            "الخصوصية": "الخُصوصِيّة",
+            "الأنشطة الفردية": "الأنشِطة الفَردِيّة",
+            "الأنشطة الجماعية": "الأنشِطة الجَماعِيّة",
+            "المعارض": "المَعارِض",
+            "الحدائق": "الحَدائِق",
+            "المسبح": "المَسبَح",
+            "دورات المياه": "دَورات المِياه",
+            "غرف تبديل الملابس": "غُرَف تَبديل المَلابِس",
+            "المعينات السمعية": "المُعينات السّمعِيّة",
+            "الإشارات الضوئية": "الإشارات الضّوئِيّة",
+            "منحدرات": "مُنحدَرات",
+            "مصاعد": "مَصاعِد",
+            "أهلاً بك": "أهلاً بِك",
+            "إعادة": "إعادة",
+            "التالي": "التّالي",
+            "السابق": "السّابِق",
+            "تخطي": "تَخَطّي"
+        };
+
+        function initArabicVoices() {
+            if (!('speechSynthesis' in window)) return;
+            const loadVoices = () => {
+                const voices = window.speechSynthesis.getVoices();
+                if (!voices || voices.length === 0) return;
+                const arabicVoices = voices.filter(v => v.lang && (v.lang.toLowerCase().startsWith('ar') || v.name.toLowerCase().includes('arabic')));
+                if (arabicVoices.length > 0) {
+                    const priorityKeywords = [
+                        'natural', 'neural', 'premium', 'enhanced', 'google',
+                        'zariyah', 'salma', 'hoda', 'naayf', 'maged', 'tarik', 'laila',
+                        'ar-sa', 'ar-eg', 'ar-ae'
+                    ];
+                    arabicVoices.sort((a, b) => {
+                        const aText = `${a.name} ${a.lang}`.toLowerCase();
+                        const bText = `${b.name} ${b.lang}`.toLowerCase();
+                        let aScore = 99;
+                        let bScore = 99;
+                        priorityKeywords.forEach((k, idx) => {
+                            if (aText.includes(k) && idx < aScore) aScore = idx;
+                            if (bText.includes(k) && idx < bScore) bScore = idx;
+                        });
+                        return aScore - bScore;
+                    });
+                    selectedArabicVoice = arabicVoices[0];
+                }
+            };
+            loadVoices();
+            if (window.speechSynthesis.onvoiceschanged !== undefined) {
+                window.speechSynthesis.onvoiceschanged = loadVoices;
+            }
+        }
+
+        function applyArabicPronunciationEnhancements(text) {
+            let enhanced = String(text || '');
+            for (const [plainTerm, vocalizedTerm] of Object.entries(arabicPronunciationLexicon)) {
+                const escaped = plainTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                enhanced = enhanced.replace(new RegExp(escaped, 'g'), vocalizedTerm);
+            }
+            return enhanced;
+        }
+
+        function formatTextForArabicSpeech(rawText) {
+            let formatted = String(rawText || '')
+                .replace(/\//g, '، أو ')
+                .replace(/–|-/g, ' إلى ')
+                .replace(/\(/g, '، ')
+                .replace(/\)/g, '، ')
+                .replace(/:/g, '، ')
+                .replace(/؟/g, '؟ ')
+                .replace(/!/g, '! ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            formatted = applyArabicPronunciationEnhancements(formatted);
+            return formatted;
+        }
+
+        function playTone(type) {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                if (type === 'listen') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(520, ctx.currentTime);
+                    osc.frequency.setValueAtTime(680, ctx.currentTime + 0.11);
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+                    osc.start(); osc.stop(ctx.currentTime + 0.25);
+                } else if (type === 'confirm') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(600, ctx.currentTime);
+                    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.18, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+                    osc.start(); osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'error') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(300, ctx.currentTime);
+                    osc.frequency.setValueAtTime(240, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.32);
+                    osc.start(); osc.stop(ctx.currentTime + 0.32);
+                }
+            } catch (e) {}
+        }
+
+        function updateVoiceUI(state, message) {
+            const bar = document.getElementById('voice-control-panel');
+            const badge = document.getElementById('voice-state-badge');
+            const textEl = document.getElementById('voice-status-text');
+            const micBtn = document.getElementById('manual-mic-btn');
+
+            if (!voiceAssistantEnabled) {
+                bar.classList.add('hidden');
+                return;
+            }
+
+            bar.classList.remove('hidden');
+            if (textEl && message) textEl.textContent = message;
+            if (state === 'speaking') {
+                badge.className = 'w-3.5 h-3.5 rounded-full bg-[#FFD100] animate-ping inline-block';
+                micBtn.classList.remove('mic-listening');
+            } else if (state === 'listening') {
+                badge.className = 'w-3.5 h-3.5 rounded-full bg-red-500 animate-ping inline-block';
+                micBtn.classList.add('mic-listening');
+            } else {
+                badge.className = 'w-3.5 h-3.5 rounded-full bg-emerald-400 inline-block';
+                micBtn.classList.remove('mic-listening');
+            }
+        }
+
+        function stopAllAudio() {
+            speechSessionId++;
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            if (recognition && isListening) {
+                try { recognition.abort(); } catch (e) {}
+            }
+            isSpeaking = false;
+            isListening = false;
+        }
+
+        function speakArabicSequence(phrases, onComplete) {
+            if (!voiceAssistantEnabled || !('speechSynthesis' in window)) {
+                if (typeof onComplete === 'function') onComplete();
+                return;
+            }
+            if (!selectedArabicVoice) {
+                initArabicVoices();
+            }
+            stopAllAudio();
+            const currentSession = speechSessionId;
+            let idx = 0;
+
+            function speakNext() {
+                if (!voiceAssistantEnabled || currentSession !== speechSessionId) return;
+                if (idx >= phrases.length) {
+                    isSpeaking = false;
+                    if (typeof onComplete === 'function') onComplete();
+                    return;
+                }
+                const cleanPhrase = formatTextForArabicSpeech(phrases[idx]);
+                idx++;
+                if (!cleanPhrase) { speakNext(); return; }
+
+                const utterance = new SpeechSynthesisUtterance(cleanPhrase);
+                utterance.lang = selectedArabicVoice && selectedArabicVoice.lang ? selectedArabicVoice.lang : 'ar-SA';
+                if (selectedArabicVoice) utterance.voice = selectedArabicVoice;
+                utterance.rate = 1.08;
+                utterance.pitch = 1.02;
+
+                utterance.onstart = () => {
+                    if (currentSession === speechSessionId) {
+                        isSpeaking = true;
+                        updateVoiceUI('speaking', 'جاري القراءة بوضوح...');
+                    }
+                };
+                utterance.onend = () => {
+                    if (currentSession === speechSessionId) {
+                        setTimeout(speakNext, 220);
+                    }
+                };
+                utterance.onerror = () => {
+                    if (currentSession === speechSessionId) {
+                        isSpeaking = false;
+                        speakNext();
+                    }
+                };
+                window.speechSynthesis.speak(utterance);
+            }
+            speakNext();
+        }
+
+        function normalizeArabic(str) {
+            let cleaned = String(str || '').toLowerCase()
+                .replace(/[ً-ٰٟ]/g, '')
+                .replace(/[أإآ]/g, 'ا')
+                .replace(/ة/g, 'ه')
+                .replace(/ى/g, 'ي')
+                .replace(/ؤ/g, 'و')
+                .replace(/ئ/g, 'ي')
+                .replace(/[^؀-ۿ0-9a-zA-Z\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (!cleaned) return '';
+
+            const words = cleaned.split(' ').map(w => {
+                if (arabicNameCorrections[w]) return normalizeArabicBase(arabicNameCorrections[w]);
+                if (libyanDialectDictionary[w]) return normalizeArabicBase(libyanDialectDictionary[w]);
+                return w;
+            });
+            cleaned = words.join(' ');
+
+            for (const [dialectPhrase, standardPhrase] of Object.entries(libyanDialectDictionary)) {
+                const normPhrase = normalizeArabicBase(dialectPhrase);
+                if (normPhrase.includes(' ') && cleaned.includes(normPhrase)) {
+                    cleaned = cleaned.replace(new RegExp(normPhrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), normalizeArabicBase(standardPhrase));
+                }
+            }
+
+            return cleaned.replace(/\s+/g, ' ').trim();
+        }
+
+        function normalizeArabicBase(str) {
+            return String(str || '').toLowerCase()
+                .replace(/[ً-ٰٟ]/g, '')
+                .replace(/[أإآ]/g, 'ا')
+                .replace(/ة/g, 'ه')
+                .replace(/ى/g, 'ي')
+                .replace(/ؤ/g, 'و')
+                .replace(/ئ/g, 'ي')
+                .replace(/[^؀-ۿ0-9a-zA-Z\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function refineArabicNameOrText(rawTranscript) {
+            const trimmed = String(rawTranscript || '').trim();
+            if (!trimmed) return '';
+            const tokens = trimmed.split(/\s+/);
+            const refinedTokens = tokens.map(tok => {
+                const base = normalizeArabicBase(tok);
+                if (arabicNameCorrections[base]) return arabicNameCorrections[base];
+                if (arabicNameCorrections[tok]) return arabicNameCorrections[tok];
+                return tok;
+            });
+            return refinedTokens.join(' ');
+        }
+
+        function matchSpokenOptionNumber(transcript, maxOptNum) {
+            const normSpoken = normalizeArabic(transcript);
+            if (!normSpoken) return null;
+
+            for (let i = 1; i <= maxOptNum; i++) {
+                const triggers = numberWordMap[i] || [String(i)];
+                for (let t of triggers) {
+                    const normT = normalizeArabicBase(t);
+                    if (normSpoken === normT || normSpoken.split(' ').includes(normT)) {
+                        return i;
+                    }
+                }
+            }
+
+            // Also support spoken option text matching as a smart fallback for Arabic/Libyan speakers
+            const q = (activeCardIndex > 0 && activeCardIndex <= surveyQuestions.length)
+                ? surveyQuestions[activeCardIndex - 1]
+                : null;
+            if (q && Array.isArray(q.options)) {
+                for (let idx = 0; idx < q.options.length; idx++) {
+                    const normOpt = normalizeArabicBase(q.options[idx]);
+                    if (normSpoken.length >= 3 && (normOpt.includes(normSpoken) || normSpoken.includes(normOpt))) {
+                        return idx + 1;
+                    }
+                }
+                if (q.hasOther) {
+                    const normOther = normalizeArabicBase(q.otherLabel || 'اخرى');
+                    if (normSpoken === 'اخرى' || normSpoken.includes(normOther)) {
+                        return q.options.length + 1;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        function startListeningForCurrentCard() {
+            if (!voiceAssistantEnabled || isAdminOpen) return;
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                updateVoiceUI('idle', 'متصفحك لا يدعم التعرف الصوتي');
+                return;
+            }
+            if (recognition) {
+                try { recognition.abort(); } catch (e) {}
+            }
+
+            const currentSession = speechSessionId;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'ar-SA';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 5;
+            recognition.continuous = false;
+
+            recognition.onstart = () => {
+                if (currentSession !== speechSessionId) return;
+                isListening = true;
+                playTone('listen');
+                updateVoiceUI('listening', 'أستمع إليك الآن (بالعربية أو اللهجة الليبية)...');
+            };
+
+            recognition.onresult = (event) => {
+                if (currentSession !== speechSessionId) return;
+                isListening = false;
+                const alternatives = [];
+                for (let i = 0; i < event.results[0].length; i++) {
+                    alternatives.push(event.results[0][i].transcript);
+                }
+                const bestTranscript = pickBestArabicTranscript(alternatives);
+                const refinedText = refineArabicNameOrText(bestTranscript);
+                updateVoiceUI('idle', `سمعت: "${refinedText}"`);
+                handleVoiceCommandOrAnswer(alternatives, refinedText);
+            };
+
+            recognition.onerror = (event) => {
+                if (currentSession !== speechSessionId) return;
+                isListening = false;
+                if (event.error === 'no-speech') {
+                    speakArabicSequence(['لم أسمع إجابتك، تفضل بالتحدث مرة أخرى أو قل إعادة.'], () => {
+                        startListeningForCurrentCard();
+                    });
+                } else {
+                    updateVoiceUI('idle', 'جاهز للاستماع - اضغط تحدث الآن');
+                }
+            };
+
+            recognition.onend = () => { isListening = false; };
+
+            try {
+                recognition.start();
+            } catch (e) {
+                updateVoiceUI('idle', 'اضغط على زر تحدث الآن');
+            }
+        }
+
+        function pickBestArabicTranscript(alternatives) {
+            if (!Array.isArray(alternatives) || alternatives.length === 0) return '';
+            for (const alt of alternatives) {
+                const norm = normalizeArabic(alt);
+                if (
+                    ['اعاده', 'التالي', 'السابق', 'تخطي', 'تم', 'انتهيت'].includes(norm) ||
+                    Object.values(numberWordMap).flat().map(normalizeArabicBase).includes(norm)
+                ) {
+                    return alt;
+                }
+            }
+            return alternatives[0];
+        }
+
+        function handleVoiceCommandOrAnswer(alternatives, primaryTranscript) {
+            const normPrimary = normalizeArabic(primaryTranscript);
+            if (['اعاده', 'اعاده السؤال', 'كرر', 'عيد', 'عاود'].includes(normPrimary)) {
+                readCurrentCardAloud();
+                return;
+            }
+            if (['التالي', 'السؤال التالي', 'تخطي', 'انتهيت', 'تم', 'قدام'].includes(normPrimary)) {
+                if (activeCardIndex === surveyQuestions.length) {
+                    playTone('confirm'); submitSurvey();
+                } else if (activeCardIndex < totalCards - 1) {
+                    playTone('confirm'); goToCard(activeCardIndex + 1);
+                }
+                return;
+            }
+            if (['السابق', 'رجوع', 'ارجع', 'ولي'].includes(normPrimary)) {
+                if (activeCardIndex > 0) { playTone('confirm'); goToCard(activeCardIndex - 1); }
+                return;
+            }
+
+            // Intro Card (0) - Name input
+            if (activeCardIndex === 0) {
+                playTone('confirm');
+                if (normPrimary.includes('تخطي') || normPrimary.includes('ابدا') || normPrimary.includes('فوت')) {
+                    speakArabicSequence(['حسناً، لنبدأ بالسؤال الأول.'], () => goToCard(1));
+                } else {
+                    const cleanName = refineArabicNameOrText(primaryTranscript);
+                    const nameInput = document.getElementById('name-input');
+                    if (nameInput) nameInput.value = cleanName;
+                    updateUserName(cleanName);
+                    speakArabicSequence([`أهلاً بك يا ${cleanName}، لنبدأ بالسؤال الأول.`], () => goToCard(1));
+                }
+                return;
+            }
+
+            if (activeCardIndex === totalCards - 1) {
+                if (normPrimary.includes('جديد') || normPrimary.includes('اعاده') || normPrimary.includes('عاود')) resetAllCards();
+                return;
+            }
+
+            const q = surveyQuestions[activeCardIndex - 1];
+            if (!q) return;
+
+            // If we are currently awaiting custom text for "أخرى" or a text question
+            if (awaitingCustomInputForOption) {
+                playTone('confirm');
+                const targetQId = awaitingCustomInputForOption.qId;
+                const optIdx = awaitingCustomInputForOption.optIdx;
+                awaitingCustomInputForOption = null;
+                const cleanInput = refineArabicNameOrText(primaryTranscript);
+
+                if (q.type === 'text') {
+                    const textarea = document.getElementById(`${q.id}-textarea`);
+                    const existing = textarea ? textarea.value.trim() : '';
+                    const updatedText = existing ? `${existing}، ${cleanInput}` : cleanInput;
+                    if (textarea) textarea.value = updatedText;
+                    handleTextInput(q.id, updatedText);
+                    speakArabicSequence(['تم تسجيل إجابتك النصية بنجاح. قل التالي للانتقال للسؤال التالي.'], () => startListeningForCurrentCard());
+                } else {
+                    updateOtherText(targetQId, cleanInput);
+                    const otherInput = document.getElementById(`${targetQId}-other-input`);
+                    if (otherInput) otherInput.value = cleanInput;
+                    
+                    if (!userAnswers[targetQId] || typeof userAnswers[targetQId] !== 'object') {
+                        userAnswers[targetQId] = { selected: [], otherText: cleanInput, otherActive: true };
+                    } else {
+                        userAnswers[targetQId].otherActive = true;
+                        userAnswers[targetQId].otherText = cleanInput;
+                    }
+                    const btn = document.getElementById(`${targetQId}-other-btn`);
+                    const icon = document.getElementById(`${targetQId}-other-icon`);
+                    const box = document.getElementById(`${targetQId}-other-box`);
+                    if (btn) btn.classList.add('selected');
+                    if (icon) icon.className = 'fa-solid fa-square-check text-black shrink-0';
+                    if (box) box.classList.remove('hidden');
+
+                    speakArabicSequence([`تم تسجيل النص: ${cleanInput}. يمكنك قول رقم آخر أو قل التالي للانتقال.`], () => startListeningForCurrentCard());
+                }
+                return;
+            }
+
+            if (q.type === 'text') {
+                playTone('confirm');
+                const cleanText = refineArabicNameOrText(primaryTranscript);
+                const textarea = document.getElementById(`${q.id}-textarea`);
+                const existing = textarea ? textarea.value.trim() : '';
+                const updatedText = existing ? `${existing}، ${cleanText}` : cleanText;
+                if (textarea) textarea.value = updatedText;
+                handleTextInput(q.id, updatedText);
+                speakArabicSequence(['تم تسجيل إجابتك. قل التالي للانتقال للسؤال القادم.'], () => startListeningForCurrentCard());
+                return;
+            }
+
+            // Standard multiple choice or single choice selection by number or spoken option
+            let maxOpts = q.options.length;
+            if (q.hasOther) maxOpts += 1;
+
+            const matchedNum = matchSpokenOptionNumber(primaryTranscript, maxOpts);
+            if (matchedNum !== null) {
+                playTone('confirm');
+                if (q.hasOther && matchedNum === q.options.length + 1) {
+                    speakArabicSequence(['يرجى التحدث الآن لإملاء نص خيار أخرى.'], () => {
+                        awaitingCustomInputForOption = { qId: q.id, optIdx: matchedNum - 1 };
+                        startListeningForCurrentCard();
+                    });
+                } else {
+                    const optIndex = matchedNum - 1;
+                    if (q.type === 'single') {
+                        handleOptionSelect(q.id, optIndex, null, true);
+                        speakArabicSequence([`تم اختيار رقم ${matchedNum}`], () => {
+                            if (activeCardIndex < totalCards - 1) goToCard(activeCardIndex + 1);
+                        });
+                    } else {
+                        handleOptionSelect(q.id, optIndex, null, true);
+                        speakArabicSequence([`تم تحديث الاختيار لرقم ${matchedNum}. قل رقم خيار آخر أو قل التالي.`], () => startListeningForCurrentCard());
+                    }
+                }
+            } else {
+                playTone('error');
+                speakArabicSequence(['عذراً، لم أتعرف على الخيار. يرجى قول رقم الخيار أو قل إعادة.'], () => startListeningForCurrentCard());
+            }
+        }
+
+        function readCurrentCardAloud() {
+            if (!voiceAssistantEnabled || isAdminOpen) return;
+            if (activeCardIndex === 0) {
+                speakArabicSequence(['أهلاً بك في تجربة المساعد الصوتي.', 'يرجى ذكر اسمك الآن، أو قل تخطي للبدء مباشرة بالسؤال الأول.'], () => startListeningForCurrentCard());
+                return;
+            }
+            if (activeCardIndex === totalCards - 1) {
+                speakArabicSequence(['أحسنت! تم إرسال إجاباتك بنجاح. شكراً لمشاركتك القيمة.']);
+                return;
+            }
+            const q = surveyQuestions[activeCardIndex - 1];
+            if (!q) return;
+
+            const phrases = [q.title];
+            if (q.type === 'text') {
+                phrases.push('هذا سؤال نصي مفتوح. يرجى التحدث الآن لإملاء إجابتك.');
+            } else {
+                phrases.push('الخيارات هي:');
+                q.options.forEach((opt) => {
+                    phrases.push(`${opt}`);
+                });
+                if (q.hasOther) {
+                    phrases.push(q.otherLabel || 'أخرى');
+                }
+                phrases.push('يمكنك قول رقم الخيار للاختيار.');
+            }
+            speakArabicSequence(phrases, () => startListeningForCurrentCard());
+        }
+
+        function repeatCurrentCardAudio() {
+            if (!voiceAssistantEnabled) voiceAssistantEnabled = true;
+            readCurrentCardAloud();
+        }
+
+        function startManualListening() {
+            if (!voiceAssistantEnabled) voiceAssistantEnabled = true;
+            stopAllAudio();
+            startListeningForCurrentCard();
+        }
+
+        // --- Experience Selection from Welcome Screen ---
+        function startExperience(mode) {
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            if (welcomeScreen) {
+                welcomeScreen.style.opacity = '0';
+                welcomeScreen.style.visibility = 'hidden';
+            }
+
+            const modeBadge = document.getElementById('mode-badge');
+
+            if (mode === 'voice') {
+                voiceAssistantEnabled = true;
+                if (modeBadge) {
+                    modeBadge.textContent = 'وضع المساعد الصوتي (للمكفوفين)';
+                    modeBadge.className = 'text-xs bg-amber-50 text-amber-700 px-3 py-1.5 rounded-full font-bold border border-amber-200 hidden md:inline-block';
+                }
+                initArabicVoices();
+                updateVoiceUI('speaking', 'تم تفعيل المساعد الصوتي');
+                setTimeout(() => readCurrentCardAloud(), 250);
+            } else {
+                voiceAssistantEnabled = false;
+                if (modeBadge) {
+                    modeBadge.textContent = 'وضع اللمس والقراءة البصرية';
+                    modeBadge.className = 'text-xs bg-teal-50 text-[#00A3AD] px-3 py-1.5 rounded-full font-bold border border-teal-200 hidden md:inline-block';
+                }
+                updateVoiceUI('idle', '');
+            }
+        }
+
+        function buildCards() {
+            const track = document.getElementById('carousel-track');
+            const dotsGroup = document.getElementById('carousel-dots-group');
+            if (!track || !dotsGroup) return;
+            track.innerHTML = '';
+            dotsGroup.innerHTML = '';
+
+            // 1. Intro Card (0)
+            const introCard = document.createElement('div');
+            introCard.className = 'flashcard-item card-theme-0 is-active';
+            introCard.id = 'card-0';
+            introCard.onclick = () => handleCardClick(0);
+            introCard.innerHTML = `
+                <div class="flipper-box">
+                    <div class="card-surface text-center pt-7">
+                        <div class="space-y-2">
+                            <span class="bg-white/25 text-white text-xs font-bold px-3 py-1 rounded-full">مقدمة الاستبيان</span>
+                            <h2 class="text-2xl md:text-3xl font-bold mt-2">مرحباً بك في الاستبيان</h2>
+                            <p class="text-sm md:text-base font-medium opacity-90">اكتب اسمك (اختياري) لنبدأ الأسئلة</p>
+                        </div>
+                        <div class="space-y-3 my-auto">
+                            <input type="text" id="name-input" placeholder="اكتب اسمك هنا (اختياري)..."
+                                class="w-full px-4 py-3.5 rounded-2xl bg-white text-black border-2 border-transparent focus:border-black text-center text-sm font-bold outline-none shadow-md"
+                                oninput="updateUserName(this.value)" />
+                        </div>
+                        <div class="space-y-2 pt-2">
+                            <button type="button" onclick="goToCard(1, event)"
+                                class="btn-solid-dark w-full py-3.5 text-sm flex items-center justify-center gap-2 shadow-md">
+                                <span>لنبدأ الأسئلة (24 سؤال)</span>
+                                <i class="fa-solid fa-arrow-left text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            track.appendChild(introCard);
+
+            // 2. Question Cards (1 to 24)
+            surveyQuestions.forEach((q, idx) => {
+                const cardIdx = idx + 1;
+                const themeIdx = cardIdx % 6;
+                const lightText = !(themeIdx === 3 || themeIdx === 5);
+                const badgeClass = lightText ? 'bg-white text-black' : 'bg-black text-white';
+                const borderClass = lightText ? 'border-white/20' : 'border-black/15';
+                const isLast = (idx === surveyQuestions.length - 1);
+
+                let bodyHTML = '';
+                if (q.type === 'text') {
+                    bodyHTML = `
+                        <div class="my-auto space-y-2">
+                            <textarea id="${q.id}-textarea" rows="5" placeholder="${q.placeholder || 'اكتب إجابتك هنا...'}"
+                                class="w-full p-3.5 rounded-2xl bg-white/95 text-black border-2 border-transparent focus:border-black text-xs md:text-sm font-medium outline-none shadow-md leading-relaxed"
+                                oninput="handleTextInput('${q.id}', this.value)"></textarea>
+                        </div>
+                    `;
+                } else {
+                    const isMulti = q.type.includes('multi');
+                    bodyHTML = `<div class="text-[11px] font-bold opacity-80 mb-1.5">${isMulti ? 'يمكنك اختيار أكثر من إجابة' : 'اختر إجابة واحدة'}</div>`;
+                    bodyHTML += `<div class="options-scroll-area space-y-2 my-auto">`;
+                    q.options.forEach((opt, optIdx) => {
+                        bodyHTML += `
+                            <button type="button" onclick="handleOptionSelect('${q.id}', ${optIdx}, event)"
+                                class="pebble-option p-2.5 px-3.5 text-xs md:text-sm flex items-center justify-between gap-2 font-medium"
+                                id="${q.id}-opt-${optIdx}">
+                                <span class="leading-snug"><strong class="ml-1.5 text-xs opacity-70">[${optIdx + 1}]</strong>${opt}</span>
+                                <i class="fa-regular ${isMulti ? 'fa-square' : 'fa-circle'} opacity-70 shrink-0"></i>
+                            </button>
+                        `;
+                    });
+                    if (q.hasOther) {
+                        const otherNum = q.options.length + 1;
+                        bodyHTML += `
+                            <div class="pt-0.5 space-y-2">
+                                <button type="button" onclick="toggleOtherOption('${q.id}', event)"
+                                    class="pebble-option p-2.5 px-3.5 text-xs md:text-sm flex items-center justify-between gap-2 font-bold"
+                                    id="${q.id}-other-btn">
+                                    <span class="flex items-center gap-1.5"><strong class="ml-1.5 text-xs opacity-70">[${otherNum}]</strong><i class="fa-solid fa-pen text-[11px]"></i><span>${q.otherLabel || 'أخرى'}</span></span>
+                                    <i class="fa-regular fa-square opacity-70 shrink-0" id="${q.id}-other-icon"></i>
+                                </button>
+                                <div id="${q.id}-other-box" class="hidden" onclick="event.stopPropagation()">
+                                    <input type="text" id="${q.id}-other-input" placeholder="اكتب إجابتك هنا..."
+                                        class="w-full px-3.5 py-2.5 rounded-xl bg-white text-black border-2 border-black text-xs font-bold outline-none shadow-sm"
+                                        oninput="updateOtherText('${q.id}', this.value)" />
+                                </div>
+                            </div>
+                        `;
+                    }
+                    bodyHTML += `</div>`;
+                }
+
+                const nextBtnHTML = isLast
+                    ? `<button type="button" onclick="submitSurvey(event)" class="btn-solid-dark px-5 py-2 text-xs flex items-center gap-1.5 shadow-sm"><span>إرسال وإنهاء</span><i class="fa-solid fa-check text-xs"></i></button>`
+                    : `<button type="button" onclick="goToCard(${cardIdx + 1}, event)" class="btn-solid-dark px-6 py-2 text-xs shadow-sm">التالي ➔</button>`;
+
+                const card = document.createElement('div');
+                card.className = `flashcard-item card-theme-${themeIdx} ${cardIdx === 1 ? 'is-next' : 'is-far-next'}`;
+                card.id = `card-${cardIdx}`;
+                card.onclick = () => handleCardClick(cardIdx);
+                card.innerHTML = `
+                    <div class="flipper-box">
+                        <div class="card-surface pt-6">
+                            <div>
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="${badgeClass} text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">سؤال ${cardIdx} من ${surveyQuestions.length}</span>
+                                    <span class="text-[11px] font-bold opacity-80 truncate">${q.section}</span>
+                                </div>
+                                <h3 class="text-sm md:text-base font-bold mt-2.5 leading-snug">${q.title}</h3>
+                            </div>
+                            ${bodyHTML}
+                            <div class="flex items-center justify-between pt-2 border-t ${borderClass}">
+                                <button type="button" onclick="goToCard(${cardIdx - 1}, event)" class="btn-solid-light px-4 py-2 text-xs shadow-sm">السابق</button>
+                                ${nextBtnHTML}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                track.appendChild(card);
+            });
+
+            // 3. Completion Card (25)
+            const doneCard = document.createElement('div');
+            doneCard.className = `flashcard-item card-theme-${(totalCards - 1) % 6} is-far-next`;
+            doneCard.id = `card-${totalCards - 1}`;
+            doneCard.onclick = () => handleCardClick(totalCards - 1);
+            doneCard.innerHTML = `
+                <div class="flipper-box">
+                    <div class="card-surface text-center pt-7">
+                        <div class="my-auto space-y-3">
+                            <div class="w-16 h-16 mx-auto bg-white text-black rounded-full flex items-center justify-center text-3xl shadow-md"><i class="fa-solid fa-trophy"></i></div>
+                            <h2 class="text-2xl font-bold">أحسنت! تم إرسال إجابتك</h2>
+                            <p class="text-sm font-medium opacity-90 leading-relaxed">شكراً لمشاركتك القيمة في هذا الاستبيان.</p>
+                        </div>
+                        <button type="button" onclick="resetAllCards(event)" class="btn-solid-light w-full py-3.5 text-xs font-bold flex items-center justify-center gap-2 mt-auto shadow-md">
+                            <i class="fa-solid fa-rotate-right text-xs"></i><span>تعبئة استبيان جديد</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            track.appendChild(doneCard);
+
+            for (let i = 0; i < totalCards; i++) {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.onclick = (e) => goToCard(i, e);
+                dot.className = i === 0 ? "h-1.5 w-5 rounded-full bg-black transition-all" : "h-1.5 w-1.5 rounded-full bg-gray-300 transition-all";
+                dotsGroup.appendChild(dot);
+            }
+        }
+
+        function updateCarousel() {
+            for (let i = 0; i < totalCards; i++) {
+                const card = document.getElementById(`card-${i}`);
+                if (!card) continue;
+                card.classList.remove('is-active', 'is-prev', 'is-next', 'is-far-prev', 'is-far-next');
+                const diff = i - activeCardIndex;
+                if (diff === 0) card.classList.add('is-active');
+                else if (diff === -1) card.classList.add('is-prev');
+                else if (diff === 1) card.classList.add('is-next');
+                else if (diff < -1) card.classList.add('is-far-prev');
+                else if (diff > 1) card.classList.add('is-far-next');
+            }
+            const progress = ((activeCardIndex + 1) / totalCards) * 100;
+            const pb = document.getElementById('carousel-progress-bar');
+            if (pb) pb.style.width = `${progress}%`;
+            const badge = document.getElementById('card-counter-badge');
+            if (badge) badge.textContent = `البطاقة ${activeCardIndex + 1} من ${totalCards}`;
+
+            const dots = document.getElementById('carousel-dots-group')?.children;
+            if (dots) {
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].className = i === activeCardIndex ? "h-1.5 w-5 rounded-full bg-black transition-all" : "h-1.5 w-1.5 rounded-full bg-gray-300 transition-all";
+                }
+            }
+        }
+
+        function goToCard(index, event) {
+            if (event) event.stopPropagation();
+            if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+            if (index < 0 || index >= totalCards) return;
+            activeCardIndex = index;
+            awaitingCustomInputForOption = null;
+            updateCarousel();
+            if (voiceAssistantEnabled && !isAdminOpen) readCurrentCardAloud();
+        }
+
+        function handleCardClick(index) {
+            if (index !== activeCardIndex) goToCard(index);
+        }
+
+        function updateUserName(val) {
+            userName = val.trim();
+            const badge = document.getElementById('respondent-header-name');
+            if (badge) badge.textContent = userName ? `👤 ${userName}` : '';
+        }
+
+        function handleTextInput(qId, val) { userAnswers[qId] = val; }
+
+        function handleOptionSelect(qId, optIdx, event, fromVoice = false) {
+            if (event) event.stopPropagation();
+            if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+
+            const q = surveyQuestions.find(item => item.id === qId);
+            if (!q) return;
+            const selectedText = q.options[optIdx];
+            const cardIdx = surveyQuestions.findIndex(item => item.id === qId) + 1;
+
+            if (q.type === 'single') {
+                userAnswers[qId] = selectedText;
+                q.options.forEach((_, idx) => {
+                    const btn = document.getElementById(`${qId}-opt-${idx}`);
+                    if (btn) {
+                        const active = idx === optIdx;
+                        btn.classList.toggle('selected', active);
+                        const icon = btn.querySelector('i');
+                        if (icon) icon.className = active ? 'fa-solid fa-circle-check text-black shrink-0' : 'fa-regular fa-circle opacity-70 shrink-0';
+                    }
+                });
+                if (!fromVoice && !voiceAssistantEnabled) {
+                    autoAdvanceTimer = setTimeout(() => {
+                        if (activeCardIndex === cardIdx && cardIdx < totalCards - 1) goToCard(cardIdx + 1);
+                    }, 280);
+                }
+            } else {
+                if (!userAnswers[qId] || typeof userAnswers[qId] !== 'object') {
+                    userAnswers[qId] = { selected: [], otherText: '' };
+                }
+                let list = userAnswers[qId].selected;
+                if (q.type === 'multi_with_all' && selectedText === "جميع ما سبق") {
+                    list = list.includes("جميع ما سبق") ? [] : ["جميع ما سبق"];
+                } else {
+                    list = list.filter(x => x !== "جميع ما سبق");
+                    if (list.includes(selectedText)) list = list.filter(x => x !== selectedText);
+                    else list.push(selectedText);
+                }
+                userAnswers[qId].selected = list;
+                q.options.forEach((opt, idx) => {
+                    const btn = document.getElementById(`${qId}-opt-${idx}`);
+                    if (btn) {
+                        const active = list.includes(opt);
+                        btn.classList.toggle('selected', active);
+                        const icon = btn.querySelector('i');
+                        if (icon) icon.className = active ? 'fa-solid fa-square-check text-black shrink-0' : 'fa-regular fa-square opacity-70 shrink-0';
+                    }
+                });
+            }
+        }
+
+        function toggleOtherOption(qId, event) {
+            if (event) event.stopPropagation();
+            if (!userAnswers[qId] || typeof userAnswers[qId] !== 'object') {
+                userAnswers[qId] = { selected: [], otherText: '', otherActive: false };
+            }
+            const nextState = !userAnswers[qId].otherActive;
+            userAnswers[qId].otherActive = nextState;
+
+            const btn = document.getElementById(`${qId}-other-btn`);
+            const icon = document.getElementById(`${qId}-other-icon`);
+            const box = document.getElementById(`${qId}-other-box`);
+            if (btn) btn.classList.toggle('selected', nextState);
+            if (icon) icon.className = nextState ? 'fa-solid fa-square-check text-black shrink-0' : 'fa-regular fa-square opacity-70 shrink-0';
+            if (box) {
+                if (nextState) { box.classList.remove('hidden'); }
+                else { box.classList.add('hidden'); userAnswers[qId].otherText = ''; }
+            }
+        }
+
+        function updateOtherText(qId, val) {
+            if (!userAnswers[qId] || typeof userAnswers[qId] !== 'object') {
+                userAnswers[qId] = { selected: [], otherText: '', otherActive: true };
+            }
+            userAnswers[qId].otherText = val;
+        }
+
+        function formatAnswerForStorage(q) {
+            const raw = userAnswers[q.id];
+            if (!raw) return 'غير مسجل';
+            if (q.type === 'single' || q.type === 'text') return raw.trim() ? raw.trim() : 'غير مسجل';
+            const items = Array.isArray(raw.selected) ? [...raw.selected] : [];
+            if (raw.otherActive && raw.otherText && raw.otherText.trim()) items.push(`أخرى: ${raw.otherText.trim()}`);
+            return items.length > 0 ? items : 'غير مسجل';
+        }
+
+        function downloadUpdatedHTMLFile() {
+            const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function submitSurvey(event) {
+            goToCard(totalCards - 1, event);
+            if (typeof confetti === 'function') confetti({ particleCount: 90, spread: 75, origin: { y: 0.6 } });
+
+            const formattedAnswers = {};
+            surveyQuestions.forEach(q => { formattedAnswers[q.id] = formatAnswerForStorage(q); });
+
+            const newRecord = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleString('ar-LY'),
+                name: userName || 'مشارك بدون اسم',
+                answers: formattedAnswers
+            };
+            let stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            stored.push(newRecord);
+            localStorage.setItem(DB_KEY, JSON.stringify(stored));
+
+            // Automatically download the updated HTML file as requested
+            downloadUpdatedHTMLFile();
+        }
+
+        function resetAllCards(event) {
+            if (event) event.stopPropagation();
+            activeCardIndex = 0; userAnswers = {}; userName = ""; awaitingCustomInputForOption = null;
+            updateUserName("");
+            buildCards(); updateCarousel();
+            if (voiceAssistantEnabled && !isAdminOpen) readCurrentCardAloud();
+        }
+
+        const ADMIN_PASSKEY = 'admin2026';
+        let isAdminAuthenticated = false;
+        let adminChartInstances = {};
+
+        function openAdminPasswordModal() {
+            const modal = document.getElementById('admin-password-modal');
+            const input = document.getElementById('admin-password-input');
+            const err = document.getElementById('admin-password-error');
+            if (err) err.classList.add('hidden');
+            if (input) {
+                input.value = '';
+                input.type = 'password';
+            }
+            const eyeIcon = document.getElementById('password-eye-icon');
+            if (eyeIcon) eyeIcon.className = 'fa-solid fa-eye';
+
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => input && input.focus(), 100);
+            }
+        }
+
+        function closeAdminPasswordModal() {
+            const modal = document.getElementById('admin-password-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('admin-password-input');
+            const icon = document.getElementById('password-eye-icon');
+            if (!input) return;
+            if (input.type === 'password') {
+                input.type = 'text';
+                if (icon) icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                input.type = 'password';
+                if (icon) icon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        function verifyAdminPassword(event) {
+            if (event) event.preventDefault();
+            const input = document.getElementById('admin-password-input');
+            const err = document.getElementById('admin-password-error');
+            const entered = input ? input.value.trim() : '';
+
+            if (entered === ADMIN_PASSKEY) {
+                isAdminAuthenticated = true;
+                closeAdminPasswordModal();
+                showAdminDashboardView();
+            } else {
+                if (err) err.classList.remove('hidden');
+                if (input) {
+                    input.classList.add('border-red-500');
+                    setTimeout(() => input.classList.remove('border-red-500'), 1200);
+                    input.focus();
+                }
+            }
+        }
+
+        function lockAdminDashboard() {
+            isAdminAuthenticated = false;
+            if (isAdminOpen) {
+                isAdminOpen = false;
+                document.getElementById('admin-view').classList.add('hidden');
+                document.getElementById('survey-view').classList.remove('hidden');
+                document.getElementById('admin-toggle-btn').innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i><span>لوحة المشرف</span>';
+                document.getElementById('app-title').textContent = 'استبيان المجمع الرياضي الشامل';
+            }
+        }
+
+        function showAdminDashboardView() {
+            isAdminOpen = true;
+            const sv = document.getElementById('survey-view');
+            const av = document.getElementById('admin-view');
+            const tb = document.getElementById('admin-toggle-btn');
+            const at = document.getElementById('app-title');
+
+            stopAllAudio();
+            sv.classList.add('hidden');
+            av.classList.remove('hidden');
+            tb.innerHTML = '<i class="fa-solid fa-eye text-[10px]"></i><span>عرض الاستبيان</span>';
+            at.textContent = 'لوحة التحكم الإدارية والإحصائيات';
+            renderAdminDashboard();
+        }
+
+        function toggleAdminView() {
+            if (isAdminOpen) {
+                isAdminOpen = false;
+                document.getElementById('admin-view').classList.add('hidden');
+                document.getElementById('survey-view').classList.remove('hidden');
+                document.getElementById('admin-toggle-btn').innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i><span>لوحة المشرف</span>';
+                document.getElementById('app-title').textContent = 'استبيان المجمع الرياضي الشامل';
+                if (voiceAssistantEnabled) readCurrentCardAloud();
+            } else {
+                if (!isAdminAuthenticated) {
+                    openAdminPasswordModal();
+                } else {
+                    showAdminDashboardView();
+                }
+            }
+        }
+
+        function openExportModal() {
+            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            if (stored.length === 0) {
+                alert('لا توجد بيانات للتصدير.');
+                return;
+            }
+            const modal = document.getElementById('export-choice-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeExportModal() {
+            const modal = document.getElementById('export-choice-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function computeQuestionCounts(q, storedRecords) {
+            let counts = {};
+            if (Array.isArray(q.options)) {
+                q.options.forEach(opt => counts[opt] = 0);
+            }
+            if (q.hasOther) {
+                counts[q.otherLabel || 'أخرى'] = 0;
+            }
+            storedRecords.forEach(r => {
+                const ans = r.answers?.[q.id];
+                if (!ans || ans === 'غير مسجل') return;
+                if (Array.isArray(ans)) {
+                    ans.forEach(item => {
+                        if (counts[item] !== undefined) {
+                            counts[item]++;
+                        } else if (String(item).startsWith('أخرى:') && q.hasOther) {
+                            const otherKey = q.otherLabel || 'أخرى';
+                            counts[otherKey] = (counts[otherKey] || 0) + 1;
+                        }
+                    });
+                } else if (counts[ans] !== undefined) {
+                    counts[ans]++;
+                }
+            });
+            return counts;
+        }
+
+        function destroyAdminCharts() {
+            Object.keys(adminChartInstances).forEach(key => {
+                if (adminChartInstances[key]) {
+                    adminChartInstances[key].destroy();
+                    delete adminChartInstances[key];
+                }
+            });
+        }
+
+        function renderAdminCharts(stored) {
+            destroyAdminCharts();
+            if (typeof Chart === 'undefined') return;
+
+            const palette = ['#00A3AD', '#F17A17', '#5A7EA8', '#9EC723', '#C81055', '#F5C400', '#48A895', '#6366F1'];
+
+            // 1. Gender (q1)
+            const q1Counts = computeQuestionCounts(surveyQuestions[0], stored);
+            const ctxGender = document.getElementById('chart-gender');
+            if (ctxGender) {
+                adminChartInstances.gender = new Chart(ctxGender, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(q1Counts),
+                        datasets: [{
+                            data: Object.values(q1Counts),
+                            backgroundColor: ['#00A3AD', '#C81055'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom' } }
+                    }
+                });
+            }
+
+            // 2. Age (q2)
+            const q2Counts = computeQuestionCounts(surveyQuestions[1], stored);
+            const ctxAge = document.getElementById('chart-age');
+            if (ctxAge) {
+                adminChartInstances.age = new Chart(ctxAge, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(q2Counts),
+                        datasets: [{
+                            label: 'عدد المشاركين',
+                            data: Object.values(q2Counts),
+                            backgroundColor: '#5A7EA8',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                    }
+                });
+            }
+
+            // 3. Role (q3)
+            const q3Counts = computeQuestionCounts(surveyQuestions[2], stored);
+            const ctxRole = document.getElementById('chart-role');
+            if (ctxRole) {
+                adminChartInstances.role = new Chart(ctxRole, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(q3Counts).map(l => l.length > 26 ? l.slice(0, 26) + '...' : l),
+                        datasets: [{
+                            label: 'العدد',
+                            data: Object.values(q3Counts),
+                            backgroundColor: '#F17A17',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                    }
+                });
+            }
+
+            // 4. Accessibility availability (q10)
+            const q10Counts = computeQuestionCounts(surveyQuestions[9], stored);
+            const ctxAcc = document.getElementById('chart-accessibility');
+            if (ctxAcc) {
+                adminChartInstances.acc = new Chart(ctxAcc, {
+                    type: 'polarArea',
+                    data: {
+                        labels: Object.keys(q10Counts),
+                        datasets: [{
+                            data: Object.values(q10Counts),
+                            backgroundColor: palette.slice(0, Object.keys(q10Counts).length).map(c => c + 'CC')
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom' } }
+                    }
+                });
+            }
+
+            // 5. Priorities (q9)
+            const q9Counts = computeQuestionCounts(surveyQuestions[8], stored);
+            const ctxPrio = document.getElementById('chart-priorities');
+            if (ctxPrio) {
+                adminChartInstances.prio = new Chart(ctxPrio, {
+                    type: 'radar',
+                    data: {
+                        labels: Object.keys(q9Counts),
+                        datasets: [{
+                            label: 'الأولويات',
+                            data: Object.values(q9Counts),
+                            backgroundColor: 'rgba(0, 163, 173, 0.25)',
+                            borderColor: '#00A3AD',
+                            pointBackgroundColor: '#00A3AD'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { r: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                    }
+                });
+            }
+
+            // 6. Activities (q21)
+            const q21Counts = computeQuestionCounts(surveyQuestions[20], stored);
+            const ctxAct = document.getElementById('chart-activities');
+            if (ctxAct) {
+                adminChartInstances.act = new Chart(ctxAct, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(q21Counts),
+                        datasets: [{
+                            label: 'عدد الرغبات',
+                            data: Object.values(q21Counts),
+                            backgroundColor: '#48A895',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                    }
+                });
+            }
+        }
+
+        function renderAdminDashboard() {
+            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            const totalParticipants = stored.length;
+            document.getElementById('stat-total-count').textContent = totalParticipants;
+
+            // Completion rate calculation across all 24 questions
+            let totalPossibleAnswers = totalParticipants * surveyQuestions.length;
+            let totalRecordedAnswers = 0;
+            let textResponsesCount = 0;
+
+            stored.forEach(r => {
+                surveyQuestions.forEach(q => {
+                    const ans = r.answers?.[q.id];
+                    const hasVal = ans && ans !== 'غير مسجل' && (!Array.isArray(ans) || ans.length > 0);
+                    if (hasVal) {
+                        totalRecordedAnswers++;
+                        if (q.type === 'text') textResponsesCount++;
+                    }
+                });
+            });
+
+            const completionPct = totalPossibleAnswers > 0
+                ? Math.round((totalRecordedAnswers / totalPossibleAnswers) * 100)
+                : 0;
+            document.getElementById('stat-completion-rate').textContent = `${completionPct}%`;
+            document.getElementById('stat-text-responses').textContent = textResponsesCount;
+
+            let roleCounts = {};
+            stored.forEach(r => {
+                const role = r.answers?.q3;
+                if (role && role !== 'غير مسجل') roleCounts[role] = (roleCounts[role] || 0) + 1;
+            });
+            let topRole = 'لا توجد بيانات', maxRole = 0;
+            for (let k in roleCounts) { if (roleCounts[k] > maxRole) { maxRole = roleCounts[k]; topRole = k; } }
+            document.getElementById('stat-top-role').textContent = topRole;
+
+            renderAdminCharts(stored);
+
+            const bc = document.getElementById('percentage-breakdown-container');
+            bc.innerHTML = '';
+            if (stored.length === 0) {
+                bc.innerHTML = '<div class="col-span-2 text-xs text-gray-400 text-center py-4 font-bold">لا توجد بيانات كافية لحساب النسب.</div>';
+            } else {
+                surveyQuestions.forEach((q, idx) => {
+                    if (q.type === 'text') {
+                        const textAnswers = stored
+                            .map(r => ({ name: r.name, val: r.answers?.[q.id] }))
+                            .filter(item => item.val && item.val !== 'غير مسجل');
+                        let textCardHtml = `
+                            <div class="bg-white p-4 rounded-xl border border-gray-200 space-y-2">
+                                <div class="flex items-center justify-between gap-2">
+                                    <div class="text-xs font-bold text-black">${idx + 1}. ${q.title}</div>
+                                    <span class="text-[11px] bg-teal-50 text-[#00A3AD] px-2 py-0.5 rounded-full font-bold">${textAnswers.length} رد نصي</span>
+                                </div>
+                        `;
+                        if (textAnswers.length === 0) {
+                            textCardHtml += `<div class="text-[11px] text-gray-400">لا توجد إجابات نصية مسجلة بعد.</div>`;
+                        } else {
+                            textCardHtml += `<div class="space-y-1.5 max-h-32 overflow-y-auto pr-1">`;
+                            textAnswers.forEach(ta => {
+                                textCardHtml += `<div class="text-[11px] bg-gray-50 p-2 rounded-lg text-gray-800"><strong class="text-black">${ta.name}:</strong> ${ta.val}</div>`;
+                            });
+                            textCardHtml += `</div>`;
+                        }
+                        textCardHtml += `</div>`;
+                        bc.innerHTML += textCardHtml;
+                        return;
+                    }
+
+                    const counts = computeQuestionCounts(q, stored);
+                    const totalSelections = Object.values(counts).reduce((a, b) => a + b, 0);
+
+                    let cardHtml = `
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 space-y-2.5">
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="text-xs font-bold text-black leading-snug">${idx + 1}. ${q.title}</div>
+                                <span class="text-[10px] bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full font-bold shrink-0">${totalSelections} اختيار</span>
+                            </div>
+                    `;
+                    for (let k in counts) {
+                        const c = counts[k];
+                        const pctOfParticipants = stored.length > 0 ? Math.round((c / stored.length) * 100) : 0;
+                        cardHtml += `
+                            <div class="space-y-0.5">
+                                <div class="flex justify-between text-[11px] text-gray-700 font-medium">
+                                    <span class="truncate max-w-[72%]">${k}</span>
+                                    <span class="font-bold">${c} (${pctOfParticipants}%)</span>
+                                </div>
+                                <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-[#00A3AD] h-full rounded-full transition-all" style="width: ${pctOfParticipants}%"></div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    cardHtml += `</div>`;
+                    bc.innerHTML += cardHtml;
+                });
+            }
+
+            const tbody = document.getElementById('admin-table-body');
+            const noData = document.getElementById('no-data-msg');
+            tbody.innerHTML = '';
+            if (stored.length === 0) { noData.classList.remove('hidden'); return; }
+            noData.classList.add('hidden');
+
+            stored.forEach((rec, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-bold">${idx + 1}</td>
+                    <td class="p-3 text-gray-500 font-bold">${rec.timestamp}</td>
+                    <td class="p-3 font-bold text-black">${rec.name}</td>
+                    <td class="p-3">${rec.answers?.q3 || 'غير مسجل'}</td>
+                    <td class="p-3 text-gray-700">${rec.answers?.q23 || '—'}</td>
+                    <td class="p-3 text-gray-700">${rec.answers?.q24 || '—'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function exportToExcel() {
+            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            if (stored.length === 0) { alert('لا توجد بيانات للتصدير.'); return; }
+
+            if (typeof XLSX !== 'undefined') {
+                const wb = XLSX.utils.book_new();
+
+                // Sheet 1: Detailed Responses
+                const headers = ['الرقم', 'التاريخ والوقت', 'الاسم', ...surveyQuestions.map((q, i) => `س${i+1}: ${q.title}`)];
+                const rows = stored.map((r, idx) => [
+                    idx + 1,
+                    r.timestamp,
+                    r.name,
+                    ...surveyQuestions.map(q => {
+                        const ans = r.answers?.[q.id];
+                        return Array.isArray(ans) ? ans.join(' | ') : (ans || '');
+                    })
+                ]);
+                const wsResponses = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+                XLSX.utils.book_append_sheet(wb, wsResponses, 'الردود التفصيلية');
+
+                // Sheet 2: Statistics Summary
+                const statHeaders = ['رقم السؤال', 'السؤال', 'الخيار', 'عدد التكرار', 'النسبة المئوية (%)'];
+                const statRows = [];
+                surveyQuestions.forEach((q, idx) => {
+                    if (q.type === 'text') return;
+                    const counts = computeQuestionCounts(q, stored);
+                    for (const [opt, cnt] of Object.entries(counts)) {
+                        const pct = stored.length > 0 ? Math.round((cnt / stored.length) * 100) : 0;
+                        statRows.push([`س${idx + 1}`, q.title, opt, cnt, pct]);
+                    }
+                });
+                const wsStats = XLSX.utils.aoa_to_sheet([statHeaders, ...statRows]);
+                XLSX.utils.book_append_sheet(wb, wsStats, 'الإحصائيات والنسب');
+
+                XLSX.writeFile(wb, 'نتائج_استبيان_المجمع_الرياضي.xlsx');
+            } else {
+                // Fallback to CSV if SheetJS didn't load
+                exportCSV();
+            }
+        }
+
+        function exportToPDF() {
+            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            if (stored.length === 0) { alert('لا توجد بيانات للتصدير.'); return; }
+
+            const reportElement = document.getElementById('admin-report-content');
+            if (typeof html2pdf !== 'undefined' && reportElement) {
+                const opt = {
+                    margin: 8,
+                    filename: 'تقرير_إحصائيات_استبيان_المجمع_الرياضي.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+                html2pdf().set(opt).from(reportElement).save();
+            } else {
+                window.print();
+            }
+        }
+
+        function exportCSV() {
+            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            if (stored.length === 0) { alert('لا توجد بيانات للتصدير.'); return; }
+            const headers = ['الرقم', 'التاريخ والوقت', 'الاسم', ...surveyQuestions.map((q, i) => `س${i+1}: ${q.title}`)];
+            const rows = stored.map((r, idx) => [
+                idx + 1, `"${r.timestamp}"`, `"${r.name}"`,
+                ...surveyQuestions.map(q => `"${String(Array.isArray(r.answers?.[q.id]) ? r.answers[q.id].join(' | ') : (r.answers?.[q.id] || '')).replace(/"/g, '""')}"`)
+            ].join(','));
+            const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'نتائج_استبيان_المجمع_الرياضي.csv'; a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function clearAllData() {
+            if (confirm('هل أنت متأكد من حذف جميع الردود المخزنة؟')) {
+                localStorage.removeItem(DB_KEY);
+                renderAdminDashboard();
+            }
+        }
+
+        // Initialize cards on load
+        document.addEventListener("DOMContentLoaded", function () {
+            buildCards();
+            updateCarousel();
+        });
+    </script>
+</body>
+</html>
