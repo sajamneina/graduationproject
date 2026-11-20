@@ -3,7 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="استبيان المجمع">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#00A3AD">
+    <meta name="format-detection" content="telephone=no">
     <title>استبيان المجمع الرياضي الشامل</title>
 
     <!-- Google Fonts -->
@@ -13,7 +19,7 @@
         rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
-    <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=xgbPld10UT2penMqzwQ9HYHzvWICWjWe1QZrrZ_yN6t0QFXWFGgJVYiJcJv3Qk9B3VlTyK_MMQZC6tWz5g6ub--uSJVu3YSEpGBFTAmo_RGGPONppPfDSa8I1Zo5nCkx440-CyiQmVyMnYzyVIygT0WDyraMWXhZ2pFdV4FXR--Tc_L8tLK9KEguCc56-5D4cJqdSBBCNngVIYdCjiWhlKblXanXI08VREB295QngPrlTRhXX2ulZAxvAlYGm1-b6s28I_p9yt3fSAEN_j4d8ROuV_-vzyEcRI44M0bQ3QE-fYWP0t6AjRumU-wGXisuJgG3KbtPi_ATTUOsgzwLDQ" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=HkL_3VPuf9XJKoijbXQY77V8qNtLvDHvRy3OYzrK7UrhUcZPKK5rwUSD911uXGBkB1gtDIvG1tQj_fCJ-c5AkwAOO5KP-UHNaHREkT5Bmy_H08Yx56QxuxDh-YKDkgvpZLwyDjiUscL8a2I2aKqT0H0smGLQh5hFZr-CiCixDhwOGirjuKy8vMf4hj3HFk0OWA7WGZE7p2PdK6Z0pqsYEtQ6P1SJiA6lUQ-pgsEyXMuMaQY9sf7cHqtnIJv1j3j27OIJSXGqWPB2x0rvVFL7TF-7LUqRsAJtyaBEE-UPZTlL5vHmUnhu33AD9ppPvp_l" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QFSUF8CxiDx7VgjA8FeyUArBa4K04-Pm7ayJ2crldUZs8AQx7tLzqNl6I5H-sAneegvt_YmCfaKrU1JnEctpsd9ST-7jqbc20UF2YNbT6AGQ_dhB754RNDo4OvtZw9HsnbmexOSZj0v-NMSe_iCGHEZjrfglhT5xS7WWbGrIQxgsenM-XU5kv4SBFcBu-2bP9vV1a7dWqCjQtX04Ani84ZT3VrMbsl0qzt6V_EsYZzkt6GwDgbWVja7R_4Q2H3BNKl5x6Hus_VRP0pwYwccGf7ngj2ozaa_Ft-aYeO8j2zC4C84e25FzfTXEyWS9zxcQSadMrxGVdmiUir_G224Pmw" charset="UTF-8"></script><script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=HkL_3VPuf9XJKoijbXQY77V8qNtLvDHvRy3OYzrK7UrhUcZPKK5rwUSD911uXGBkB1gtDIvG1tQj_fCJ-c5AkwAOO5KP-UHNaHREkT5Bmy_H08Yx56QxuxDh-YKDkgvpZLwyDjiUscL8a2I2aKqT0H0smGLQh5hFZr-CiCixDhwOGirjuKy8vMf4hj3HFk0OWA7WGZE7p2PdK6Z0pqsYEtQ6P1SJiA6lUQ-pgsEyXMuMaQY9sf7cHqtnIJv1j3j27OIJSXGqWPB2x0rvVFL7TF-7LUqRsAJtyaBEE-UPZTlL5vHmUnhu33AD9ppPvp_l" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
 
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -241,6 +247,98 @@
             #admin-view { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 10px; }
             .no-print { display: none !important; }
         }
+    
+        :root {
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            height: 100%;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: #18181B;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: var(--safe-bottom);
+        }
+
+        header {
+            padding-top: calc(0.875rem + var(--safe-top)) !important;
+            padding-left: calc(1rem + var(--safe-left)) !important;
+            padding-right: calc(1rem + var(--safe-right)) !important;
+        }
+
+        #welcomeScreen {
+            position: fixed;
+            inset: 0;
+            min-height: 100dvh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-top: calc(1.5rem + var(--safe-top));
+            padding-bottom: calc(1.5rem + var(--safe-bottom));
+        }
+
+        /* Prevent iOS Safari auto-zoom on form inputs/textareas */
+        input[type="text"],
+        input[type="password"],
+        textarea,
+        select {
+            font-size: 16px !important;
+        }
+
+        .options-scroll-area {
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        button,
+        .pebble-option,
+        .flashcard-item {
+            touch-action: manipulation;
+        }
+
+        @media (max-width: 640px) {
+            .carousel-stage-container {
+                min-height: 490px;
+                padding: 4px 0;
+            }
+            .carousel-track {
+                height: 475px;
+            }
+            .flashcard-item {
+                width: 94%;
+                max-width: 400px;
+                height: 465px;
+                border-radius: 26px;
+            }
+            .card-surface {
+                padding: 16px 18px !important;
+            }
+            .options-scroll-area {
+                max-height: 235px;
+            }
+            .pebble-option {
+                min-height: 44px;
+            }
+            .flashcard-item.is-prev {
+                transform: translateX(36vw) scale(0.82) rotateY(-8deg) translateZ(-40px) !important;
+                opacity: 0.22;
+            }
+            .flashcard-item.is-next {
+                transform: translateX(-36vw) scale(0.82) rotateY(8deg) translateZ(-40px) !important;
+                opacity: 0.22;
+            }
+        }
+
     </style>
 </head>
 
@@ -689,6 +787,30 @@
         ];
 
         const DB_KEY = 'paralympic_survey_db_v1';
+
+        function safeGetStorage(key) {
+            try {
+                return localStorage.getItem(key);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function safeSetStorage(key, val) {
+            try {
+                localStorage.setItem(key, val);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function safeRemoveStorage(key) {
+            try {
+                localStorage.removeItem(key);
+            } catch (e) {}
+        }
+
         const totalCards = surveyQuestions.length + 2;
         let activeCardIndex = 0;
         let userName = "";
@@ -1803,14 +1925,23 @@
         }
 
         function downloadUpdatedHTMLFile() {
-            const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'index.html';
-            a.click();
-            URL.revokeObjectURL(url);
+            try {
+                const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'index.html';
+                a.rel = 'noopener';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 1200);
+            } catch (e) {
+                // Fallback for strict mobile webviews/browsers
+            }
         }
 
         function submitSurvey(event) {
@@ -1826,9 +1957,9 @@
                 name: userName || 'مشارك بدون اسم',
                 answers: formattedAnswers
             };
-            let stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            let stored = JSON.parse(safeGetStorage(DB_KEY) || '[]');
             stored.push(newRecord);
-            localStorage.setItem(DB_KEY, JSON.stringify(stored));
+            safeSetStorage(DB_KEY, JSON.stringify(stored));
 
             // Automatically download the updated HTML file as requested
             downloadUpdatedHTMLFile();
@@ -1950,7 +2081,7 @@
         }
 
         function openExportModal() {
-            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            const stored = JSON.parse(safeGetStorage(DB_KEY) || '[]');
             if (stored.length === 0) {
                 alert('لا توجد بيانات للتصدير.');
                 return;
@@ -2154,7 +2285,7 @@
         }
 
         function renderAdminDashboard() {
-            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            const stored = JSON.parse(safeGetStorage(DB_KEY) || '[]');
             const totalParticipants = stored.length;
             document.getElementById('stat-total-count').textContent = totalParticipants;
 
@@ -2273,7 +2404,7 @@
         }
 
         function exportToExcel() {
-            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            const stored = JSON.parse(safeGetStorage(DB_KEY) || '[]');
             if (stored.length === 0) { alert('لا توجد بيانات للتصدير.'); return; }
 
             if (typeof XLSX !== 'undefined') {
@@ -2315,7 +2446,7 @@
         }
 
         function exportToPDF() {
-            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            const stored = JSON.parse(safeGetStorage(DB_KEY) || '[]');
             if (stored.length === 0) { alert('لا توجد بيانات للتصدير.'); return; }
 
             const reportElement = document.getElementById('admin-report-content');
@@ -2334,7 +2465,7 @@
         }
 
         function exportCSV() {
-            const stored = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            const stored = JSON.parse(safeGetStorage(DB_KEY) || '[]');
             if (stored.length === 0) { alert('لا توجد بيانات للتصدير.'); return; }
             const headers = ['الرقم', 'التاريخ والوقت', 'الاسم', ...surveyQuestions.map((q, i) => `س${i+1}: ${q.title}`)];
             const rows = stored.map((r, idx) => [
@@ -2351,15 +2482,53 @@
 
         function clearAllData() {
             if (confirm('هل أنت متأكد من حذف جميع الردود المخزنة؟')) {
-                localStorage.removeItem(DB_KEY);
+                safeRemoveStorage(DB_KEY);
                 renderAdminDashboard();
             }
+        }
+
+        
+        function enableMobileSwipeGestures() {
+            const track = document.getElementById('carousel-track');
+            if (!track) return;
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let isSwiping = false;
+
+            track.addEventListener('touchstart', (e) => {
+                if (!e.touches || e.touches.length !== 1) return;
+                // Ignore swipe if starting inside scrollable options or text inputs
+                if (e.target.closest('.options-scroll-area') || e.target.closest('input') || e.target.closest('textarea')) {
+                    isSwiping = false;
+                    return;
+                }
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                isSwiping = true;
+            }, { passive: true });
+
+            track.addEventListener('touchend', (e) => {
+                if (!isSwiping || !e.changedTouches || e.changedTouches.length !== 1) return;
+                isSwiping = false;
+                const deltaX = e.changedTouches[0].clientX - touchStartX;
+                const deltaY = e.changedTouches[0].clientY - touchStartY;
+
+                // Horizontal swipe threshold (RTL: swipe left -> next card, swipe right -> prev card)
+                if (Math.abs(deltaX) > 55 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
+                    if (deltaX < 0 && activeCardIndex < totalCards - 1) {
+                        goToCard(activeCardIndex + 1);
+                    } else if (deltaX > 0 && activeCardIndex > 0) {
+                        goToCard(activeCardIndex - 1);
+                    }
+                }
+            }, { passive: true });
         }
 
         // Initialize cards on load
         document.addEventListener("DOMContentLoaded", function () {
             buildCards();
             updateCarousel();
+            enableMobileSwipeGestures();
         });
     </script>
 </body>
